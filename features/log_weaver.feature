@@ -11,9 +11,9 @@ Feature: run command line app; weave log files by timestamp
     And the following options should be documented:
       |--version|
     And the banner should document that this app's arguments are:
-      | file1  | which is required |
-      | file2  | which is required |
-      | file3+ | which is optional |
+      | file1            | which is required |
+      | file2            | which is required |
+      | additional_files | which is optional |
 
 
 

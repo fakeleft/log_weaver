@@ -14,26 +14,13 @@ class App
     # the options Hash
   end
 
-  # supplemental methods here
 
-  # Declare command-line interface here
+  description "Weaves logs by timestamp."
 
-  # description "one line description of your app"
-  #
-  # Accept flags via:
-  # on("--flag VAL","Some flag")
-  # options[flag] will contain VAL
-  #
-  # Specify switches via:
-  # on("--[no-]switch","Some switch")
-  #
-  # Or, just call OptionParser methods on opts
-  #
-  # Require an argument
-  # arg :some_arg 
-  #
-  # # Make an argument optional
-  # arg :optional_arg, :optional
+  arg :file1, "Path to first log file."
+  arg :file2, "Path to second log file."
+  #TODO: how do you capture variable number of optional args?
+  arg :additional_files, :optional, "Paths to subsequent log files."
 
   version LogWeaver::VERSION
 
