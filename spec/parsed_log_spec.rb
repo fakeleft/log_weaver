@@ -8,10 +8,10 @@ module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
       let(:t) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
+      let(:prefix) {"prefix:"}
 
       describe "#to_s" do
         it "prints the log to a string" do
-          prefix = "prefix:"
           lines = { t => ["#{prefix}#{t} - hello"] }
           p = ParsedLog.new(StringIO.new, prefix)
           p.stub(:lines).and_return(lines)
@@ -51,7 +51,6 @@ module LogWeaver
 
       describe ".parse_log" do
         it "prepends the prefix to every line with a timestamp" do
-          prefix = "prefix:"
           log = StringIO.new(<<-file_contents.unindent
                                   #{t} - hello
                                   #{(t + 1)} - world
@@ -60,7 +59,6 @@ module LogWeaver
           ParsedLog.parse_log(log, prefix).should == { t => ["#{prefix}#{t} - hello"], (t+1) => ["#{prefix}#{t+1} - world"] }
         end
         it "does not prepend the prefix to lines with no time stamp" do
-          prefix = "prefix:"
           log = StringIO.new(<<-file_contents.unindent
                                   #{t} - hello
                                   hi
