@@ -7,12 +7,12 @@ require 'unindent'
 module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
-      let(:t) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
+      let(:t1) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
       let(:prefix) {"prefix:"}
 
       describe "#to_s" do
         it "prints the log to a string" do
-          lines = { t => ["#{prefix}#{t} - hello"] }
+          lines = { t1 => ["#{prefix}#{t1} - hello"] }
           p = ParsedLog.new(StringIO.new, prefix)
           p.stub(:lines).and_return(lines)
           p.to_s.should == lines.map { |t, ls| ls.map { |l| "#{l}" }.join("\n") }.join("\n")
@@ -21,10 +21,10 @@ module LogWeaver
 
       describe "#+" do
         it "concatenates line hashes" do
-          lines = { t => ["#{t} - hello"] }
+          lines = { t1 => ["#{t1} - hello"] }
           p = ParsedLog.new(StringIO.new, "")
           p.stub(:lines).and_return(lines)
-          lines2 = { t + 1 => ["#{t + 1} - world"] }
+          lines2 = { t1 + 1 => ["#{t1 + 1} - world"] }
           p2 = ParsedLog.new(StringIO.new, "")
           p2.stub(:lines).and_return(lines2)
           sum = p + p2
@@ -39,12 +39,12 @@ module LogWeaver
 
         it "parses the given log file by timestamp" do
           log = StringIO.new(<<-file_contents.unindent
-                                  #{t} - hello
-                                  #{(t + 1)} - world
+                                  #{t1} - hello
+                                  #{(t1 + 1)} - world
                                 file_contents
                             )
           pl = ParsedLog.new log, "prefix"
-          pl.instance_variable_get(:@lines).should == { t => ["prefix#{t} - hello"], (t+1) => ["prefix#{t+1} - world"] }
+          pl.instance_variable_get(:@lines).should == { t1 => ["prefix#{t1} - hello"], (t1+1) => ["prefix#{t1+1} - world"] }
 
         end
       end
@@ -52,46 +52,46 @@ module LogWeaver
       describe ".parse_log" do
         it "prepends the prefix to every line with a timestamp" do
           log = StringIO.new(<<-file_contents.unindent
-                                  #{t} - hello
-                                  #{(t + 1)} - world
+                                  #{t1} - hello
+                                  #{(t1 + 1)} - world
                                 file_contents
                             )
-          ParsedLog.parse_log(log, prefix).should == { t => ["#{prefix}#{t} - hello"], (t+1) => ["#{prefix}#{t+1} - world"] }
+          ParsedLog.parse_log(log, prefix).should == { t1 => ["#{prefix}#{t1} - hello"], (t1+1) => ["#{prefix}#{t1+1} - world"] }
         end
         it "does not prepend the prefix to lines with no time stamp" do
           log = StringIO.new(<<-file_contents.unindent
-                                  #{t} - hello
+                                  #{t1} - hello
                                   hi
-                                  #{(t + 1)} - world
+                                  #{(t1 + 1)} - world
                                 file_contents
                             )
-          ParsedLog.parse_log(log, prefix).should == { t => ["#{prefix}#{t} - hello", "hi"], (t+1) => ["#{prefix}#{t+1} - world"] }
+          ParsedLog.parse_log(log, prefix).should == { t1 => ["#{prefix}#{t1} - hello", "hi"], (t1+1) => ["#{prefix}#{t1+1} - world"] }
         end
         it "parses lines with different time stamps" do
           log = StringIO.new(<<-file_contents.unindent
-                                  #{t} - hello
-                                  #{(t + 1)} - world
+                                  #{t1} - hello
+                                  #{(t1 + 1)} - world
                                 file_contents
                             )
-          ParsedLog.parse_log(log).should == { t => ["#{t} - hello"], (t+1) => ["#{t+1} - world"] }
+          ParsedLog.parse_log(log).should == { t1 => ["#{t1} - hello"], (t1+1) => ["#{t1+1} - world"] }
         end
         it "parses a log where the first line has no timestamp" do
           # TODO: subtract a ms from first time stamp?
           log = StringIO.new(<<-file_contents.unindent
                                   hello
-                                  #{(t + 1)} - world
+                                  #{(t1 + 1)} - world
                                 file_contents
                             )
           expect { ParsedLog.parse_log(log) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
         end
         it "associates lines with no timestamp with preceding timestamp " do
           log = StringIO.new(<<-file_contents.unindent
-                                  #{t} - hello
+                                  #{t1} - hello
                                   hi
-                                  #{(t + 1)} - world
+                                  #{(t1 + 1)} - world
                                 file_contents
                             )
-          ParsedLog.parse_log(log).should == { t => ["#{t} - hello", "hi"], (t+1) => ["#{t+1} - world"] }
+          ParsedLog.parse_log(log).should == { t1 => ["#{t1} - hello", "hi"], (t1+1) => ["#{t1+1} - world"] }
         end
       end
 
@@ -102,13 +102,13 @@ module LogWeaver
         end
         it "returns a timestamp if the string begins with ISO-formatted time (including msecs)" do
           t = Time.parse(Time.now.to_s) #NOTE: spitting time to a string and then parsing to drop anything below msecs for later comparisons
-          ParsedLog.extract_time_stamp("#{t}").should == t
-          ParsedLog.extract_time_stamp("#{t} hello world").should == t
+          ParsedLog.extract_time_stamp("#{t1}").should == t1
+          ParsedLog.extract_time_stamp("#{t1} hello world").should == t1
         end
         it "returns nil when a string has a time stamp, but not at the beginning" do
-          t = Time.parse(Time.now.to_s)
-          ParsedLog.extract_time_stamp("hello #{t}").should be_nil
-          ParsedLog.extract_time_stamp("hello #{t} world").should be_nil
+          t1 = Time.parse(Time.now.to_s)
+          ParsedLog.extract_time_stamp("hello #{t1}").should be_nil
+          ParsedLog.extract_time_stamp("hello #{t1} world").should be_nil
         end
       end
     end
