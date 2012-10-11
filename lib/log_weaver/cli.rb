@@ -34,7 +34,7 @@ module LogWeaver
         base_names << base_name
         processed_file_paths[fp] = {}
         processed_file_paths[fp][:base_name] = base_name
-        processed_file_paths[fp][:fullpath] = File.expand_path(base_name)
+        processed_file_paths[fp][:fullpath] = File.expand_path(fp)
         path_dirs = processed_file_paths[fp][:fullpath].split('/')
         path_dirs.pop
         processed_file_paths[fp][:path_dirs] = path_dirs
@@ -63,10 +63,10 @@ module LogWeaver
       end
 
       # prepend dir path components if still not unique
-      (0 .. max_path_component_length - 1).each do |i|
+      (max_path_component_length - 1).downto(0) do |i|
         break if prefixes.uniq?
         file_paths.each do |fp|
-          processed_file_paths[fp][:prefix].insert(0, processed_file_paths[fp][:path_dirs][i].to_s + "\\")
+          processed_file_paths[fp][:prefix].insert(0, processed_file_paths[fp][:path_dirs][i].to_s + "/")
         end
       end
 

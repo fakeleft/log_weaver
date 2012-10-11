@@ -34,6 +34,14 @@ module LogWeaver
           get_file_prefixes(%w{ 12345 a 1234 }).should == { "12345" => "12345", "a" => "a", "1234" => "1234" }
         end
       end
+      context "file names are the same" do
+        it "should prepend the directory portion of the path" do
+          get_file_prefixes(%w{ a/a b/a }).should == { "a/a" => "a/a", "b/a" => "b/a" }
+          get_file_prefixes(%w{ a/b/a b/c/a }).should == { "a/b/a" => "b/a", "b/c/a" => "c/a" }
+          get_file_prefixes(%w{ a/a a/../b/a }).should == { "a/a" => "a/a", "a/../b/a" => "b/a" }
+          get_file_prefixes(%w{ a/a b/a c/a}).should == { "a/a" => "a/a", "b/a" => "b/a", "c/a" => "c/a" }
+        end
+      end
     end
 
     describe "#get_longest_common_prefix" do
