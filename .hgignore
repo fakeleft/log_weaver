@@ -4,4 +4,6 @@ pkg
 html
 .idea
 
-tmp 
+tmp
+test.rb
+
