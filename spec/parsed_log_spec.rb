@@ -12,11 +12,10 @@ module LogWeaver
       describe "#to_s" do
         it "prints the log to a string" do
           prefix = "prefix:"
-          lines = { t => ["#{t} - hello"] }
-          p = ParsedLog.new(StringIO.new, "")
+          lines = { t => ["#{prefix}#{t} - hello"] }
+          p = ParsedLog.new(StringIO.new, prefix)
           p.stub(:lines).and_return(lines)
-          p.stub(:prefix).and_return(prefix)
-          p.to_s.should == lines.map { |t, ls| "#{prefix}" << ls.map { |l| "#{l}" }.join("\n") }.join("\n")
+          p.to_s.should == lines.map { |t, ls| ls.map { |l| "#{l}" }.join("\n") }.join("\n")
         end
       end
 
@@ -45,12 +44,31 @@ module LogWeaver
                                 file_contents
                             )
           pl = ParsedLog.new log, "prefix"
-          pl.instance_variable_get(:@lines).should == { t => ["#{t} - hello"], (t+1) => ["#{t+1} - world"] }
+          pl.instance_variable_get(:@lines).should == { t => ["prefix#{t} - hello"], (t+1) => ["prefix#{t+1} - world"] }
 
         end
       end
 
       describe ".parse_log" do
+        it "prepends the prefix to every line with a timestamp" do
+          prefix = "prefix:"
+          log = StringIO.new(<<-file_contents.unindent
+                                  #{t} - hello
+                                  #{(t + 1)} - world
+                                file_contents
+                            )
+          ParsedLog.parse_log(log, prefix).should == { t => ["#{prefix}#{t} - hello"], (t+1) => ["#{prefix}#{t+1} - world"] }
+        end
+        it "does not prepend the prefix to lines with no time stamp" do
+          prefix = "prefix:"
+          log = StringIO.new(<<-file_contents.unindent
+                                  #{t} - hello
+                                  hi
+                                  #{(t + 1)} - world
+                                file_contents
+                            )
+          ParsedLog.parse_log(log, prefix).should == { t => ["#{prefix}#{t} - hello", "hi"], (t+1) => ["#{prefix}#{t+1} - world"] }
+        end
         it "parses lines with different time stamps" do
           log = StringIO.new(<<-file_contents.unindent
                                   #{t} - hello

@@ -7,11 +7,11 @@ module LogWeaver
 
     def initialize(log, prefix)
       @prefix = prefix
-      @lines = ParsedLog.parse_log log
+      @lines = ParsedLog.parse_log log, prefix
     end
 
     def to_s
-      lines.map { |t, ls| "#{prefix}" + ls.map { |l| "#{l}" }.join("\n") }.join("\n")
+      lines.map { |t, ls| ls.map { |l| "#{l}" }.join("\n") }.join("\n")
     end
 
     def +(other)
@@ -22,7 +22,7 @@ module LogWeaver
 
     #private TODO: see http://stackoverflow.com/questions/4952980/creating-private-class-method; test per
     # http://kailuowang.blogspot.ca/2010/08/testing-private-methods-in-rspec.html
-    def self.parse_log(log)
+    def self.parse_log(log, prefix = "")
       res = {}
       previous_t = nil
       log.string.split("\n").each do |l|
@@ -36,7 +36,9 @@ module LogWeaver
         end
       end
 
-      res
+      # prepend the prefix to every line with a time stamp
+      res.each_key{ |t| res[t][0] = prefix + res[t][0] }
+
     end
 
     def self.extract_time_stamp(line)
