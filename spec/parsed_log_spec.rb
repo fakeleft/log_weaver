@@ -42,6 +42,7 @@ module LogWeaver
 
       end
     end
+
     describe ".parse_log" do
       it "parses lines with different time stamps" do
         t = Time.now
@@ -51,6 +52,13 @@ module LogWeaver
                             file_contents
                           )
         ParsedLog.parse_log(log).should == { t => [" - hello"], (t+1) => [" - world"]}
+      end
+    end
+
+    describe ".extract_time_stamp"  do
+      it "returns nil when string doesn't have a time stamp" do
+        ParsedLog.extract_time_stamp("").should be_nil
+        ParsedLog.extract_time_stamp("no timestamp here").should be_nil
       end
     end
 

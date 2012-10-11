@@ -17,11 +17,15 @@ module LogWeaver
     def self.parse_log(log)
       res = {}
       log.split("\n").each do |l|
-        (t, rest) = get_time_stamp(l)
+        (t, rest) = extract_time_stamp(l)
         if t
 
         end
       end
+
+    end
+
+    def self.extract_time_stamp(line)
 
     end
 
