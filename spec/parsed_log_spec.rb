@@ -18,7 +18,17 @@ module LogWeaver
       end
     end
     describe "#initialize" do
-      it "parses the given log file by timestamp"
+      it "parses the given log file by timestamp" do
+        now = Time.now
+        log = StringIO.new(<<-file_contents.unindent
+                                #{now.strftime("%Y-%m-%d %H:%M:%S.%L")} - hello
+                                #{(now + 1).strftime("%Y-%m-%d %H:%M:%S.%L")} - world
+                              file_contents
+                          )
+
+        puts log.string
+      end
+
     end
   end
 end
