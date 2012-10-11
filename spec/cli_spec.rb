@@ -29,6 +29,15 @@ module LogWeaver
         get_longest_common_prefix(%w{ aa ba a }).should == ""
         get_longest_common_prefix(%w{ a ba aa }).should == ""
       end
+
+      it "should return the longest common prefix if there is one" do
+        get_longest_common_prefix(%w{ a }).should == "a"
+        get_longest_common_prefix(%w{ a ab }).should == "a"
+        get_longest_common_prefix(%w{ aa aab }).should == "aa"
+        get_longest_common_prefix(%w{ a aa aa }).should == "a"
+        get_longest_common_prefix(%w{ aa aa a }).should == "a"
+      end
+
     end
   end
 end

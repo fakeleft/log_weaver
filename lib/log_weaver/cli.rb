@@ -30,7 +30,7 @@ module LogWeaver
       return nil if words.include? nil
       prefix =  words.shift
       until prefix == ""
-        break if words.all?{ |w| w =~ /^prefix/ }
+        break if words.all?{ |w| w =~ /^#{prefix}/ }
         prefix.chop!
       end
       prefix
