@@ -42,6 +42,12 @@ module LogWeaver
           get_file_prefixes(%w{ a/a b/a c/a}).should == { "a/a" => "a/a", "b/a" => "b/a", "c/a" => "c/a" }
         end
       end
+      context "file paths expand to the same file" do
+        it "throws an error" do
+          expect{ get_file_prefixes(%w{ a a }) }.to raise_error(ArgumentError, "File list is not unique.")
+          expect{ get_file_prefixes(%w{ a/a a/b/../a }) }.to raise_error(ArgumentError, "File list is not unique.")
+        end
+      end
     end
 
     describe "#get_longest_common_prefix" do

@@ -24,6 +24,7 @@ module LogWeaver
       # prepend directories until all unique
 
       base_names = []
+      expanded_paths = []
       processed_file_paths = {}
       max_base_name_length = 0
       max_path_component_length = 0
@@ -34,13 +35,15 @@ module LogWeaver
         base_names << base_name
         processed_file_paths[fp] = {}
         processed_file_paths[fp][:base_name] = base_name
-        processed_file_paths[fp][:fullpath] = File.expand_path(fp)
-        path_dirs = processed_file_paths[fp][:fullpath].split('/')
+        processed_file_paths[fp][:expanded_path] = File.expand_path(fp)
+        expanded_paths << processed_file_paths[fp][:expanded_path]
+        path_dirs = processed_file_paths[fp][:expanded_path].split('/')
         path_dirs.pop
         processed_file_paths[fp][:path_dirs] = path_dirs
         max_path_component_length = processed_file_paths[fp][:path_dirs].length if processed_file_paths[fp][:path_dirs].length > max_path_component_length
       end
 
+      raise ArgumentError, "File list is not unique." unless expanded_paths.uniq?
 
       # initialize accumulator data structures with the common prefix
       prefix = get_longest_common_prefix base_names
