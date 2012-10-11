@@ -3,6 +3,7 @@ require 'time'
 module LogWeaver
   class ParsedLog
     attr_accessor :lines
+    attr_reader :prefix
 
     def initialize(log, prefix)
       @prefix = prefix
