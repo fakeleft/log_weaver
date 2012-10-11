@@ -19,7 +19,7 @@ module LogWeaver
         now = Time.now
         prefix = "prefix"
         lines = { now => %w{ hello world } }
-        p = ParsedLog.new(nil, nil)
+        p = ParsedLog.new(StringIO.new, "")
         p.stub(:lines).and_return(lines)
         p.stub(:prefix).and_return(prefix)
         p.to_s.should == lines.map{ |t, ls| "#{prefix}: #{t}" << " " << ls.map{ |l| "#{l}"}.join("\n")  << "\n"}
@@ -28,7 +28,7 @@ module LogWeaver
 
     describe ".initialize" do
       it "stores the prefix" do
-        ParsedLog.new( nil, "prefix").instance_variable_get(:@prefix).should == "prefix"
+        ParsedLog.new(StringIO.new, "prefix").instance_variable_get(:@prefix).should == "prefix"
       end
       let(:t) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
       it "parses the given log file by timestamp" do
