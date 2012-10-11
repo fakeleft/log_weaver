@@ -101,12 +101,10 @@ module LogWeaver
           ParsedLog.extract_time_stamp("no timestamp here").should be_nil
         end
         it "returns a timestamp if the string begins with ISO-formatted time (including msecs)" do
-          t = Time.parse(Time.now.to_s) #NOTE: spitting time to a string and then parsing to drop anything below msecs for later comparisons
           ParsedLog.extract_time_stamp("#{t1}").should == t1
           ParsedLog.extract_time_stamp("#{t1} hello world").should == t1
         end
         it "returns nil when a string has a time stamp, but not at the beginning" do
-          t1 = Time.parse(Time.now.to_s)
           ParsedLog.extract_time_stamp("hello #{t1}").should be_nil
           ParsedLog.extract_time_stamp("hello #{t1} world").should be_nil
         end
