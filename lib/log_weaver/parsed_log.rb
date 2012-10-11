@@ -10,7 +10,7 @@ module LogWeaver
     end
 
     def to_s
-      res = @lines.map{ |t, ls| ls.map{ |l| "#{@prefix}#{l}"}.join("\n")}.join("\n")
+      @lines.map{ |t, ls| ls.map{ |l| "#{@prefix}#{l}"}.join("\n")}.join("\n")
     end
 
     def +(other)
