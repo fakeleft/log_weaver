@@ -65,6 +65,17 @@ module LogWeaver
         )
         expect{ ParsedLog.parse_log(log) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
       end
+
+      it "associates lines with no timestamp with preceding timestamp " do
+        t = Time.parse(Time.now.to_s) # NOTE: init time this way to drop values below msec
+        log = StringIO.new(<<-file_contents.unindent
+                              #{t} - hello
+                              hi
+                              #{(t + 1)} - world
+        file_contents
+        )
+        ParsedLog.parse_log(log).should == { t => ["#{t} - hello", "hi"], (t+1) => ["#{t+1} - world"]}
+      end
     end
 
     describe ".extract_time_stamp"  do

@@ -18,14 +18,15 @@ module LogWeaver
     # http://kailuowang.blogspot.ca/2010/08/testing-private-methods-in-rspec.html
     def self.parse_log(log)
       res = {}
+      previous_t = nil
       log.string.split("\n").each do |l|
         t = extract_time_stamp(l)
         if t
           res[t] = [l]
           previous_t = t
         else
-          raise ArgumentError, "Log does not begin with a timestamp." unless defined? prevous_t
-          res[previous_t] << t
+          raise ArgumentError, "Log does not begin with a timestamp." if previous_t.nil?
+          res[previous_t] << l
         end
       end
 
