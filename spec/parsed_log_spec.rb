@@ -65,6 +65,11 @@ module LogWeaver
         ParsedLog.extract_time_stamp("#{t}").should == t
         ParsedLog.extract_time_stamp("#{t} hello world").should == t
       end
+      it "returns nil when a string has a time stamp, but not at the beginning" do
+        t = Time.parse(Time.now.to_s)
+        ParsedLog.extract_time_stamp("hello #{t}").should be_nil
+        ParsedLog.extract_time_stamp("hello #{t} world").should be_nil
+      end
     end
 
   end
