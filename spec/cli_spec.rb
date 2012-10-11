@@ -38,6 +38,12 @@ module LogWeaver
         get_longest_common_prefix(%w{ aa aa a }).should == "a"
       end
 
+      it "should not change any of its arguments" do
+        a = %w{ 12345 abcde }
+        get_longest_common_prefix( a )
+        a.should == %w{ 12345 abcde }
+      end
+
     end
   end
 end

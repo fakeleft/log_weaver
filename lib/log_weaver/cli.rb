@@ -27,8 +27,9 @@ module LogWeaver
     end
 
     def get_longest_common_prefix(words)
+      words = words.dup
       return nil if words.include? nil
-      prefix =  words.shift
+      prefix =  words.shift.dup
       until prefix == ""
         break if words.all?{ |w| w =~ /^#{prefix}/ }
         prefix.chop!
