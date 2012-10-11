@@ -12,8 +12,16 @@ module LogWeaver
     def +
 
     end
-    private
-    def parse_log(log)
+    #private TODO: see http://stackoverflow.com/questions/4952980/creating-private-class-method; test per
+    # http://kailuowang.blogspot.ca/2010/08/testing-private-methods-in-rspec.html
+    def self.parse_log(log)
+      res = {}
+      log.split("\n").each do |l|
+        (t, rest) = get_time_stamp(l)
+        if t
+
+        end
+      end
 
     end
 

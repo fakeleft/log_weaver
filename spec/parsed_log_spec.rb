@@ -41,7 +41,17 @@ module LogWeaver
         pl.instance_variable_get(:@lines).should == { t => [" - hello"], (t+1) => [" - world"]}
 
       end
-
+    end
+    describe ".parse_log" do
+      it "parses lines with different time stamps" do
+        t = Time.now
+        log = StringIO.new(<<-file_contents.unindent
+                              #{t} - hello
+                              #{(t + 1)} - world
+                            file_contents
+                          )
+        ParsedLog.parse_log(log).should == { t => [" - hello"], (t+1) => [" - world"]}
+      end
     end
 
   end
