@@ -11,12 +11,12 @@ module LogWeaver
 
       describe "#to_s" do
         it "prints the log to a string" do
-          prefix = "prefix"
-          lines = { t => %w{ hello world } }
+          prefix = "prefix:"
+          lines = { t => ["#{t} - hello"] }
           p = ParsedLog.new(StringIO.new, "")
           p.stub(:lines).and_return(lines)
           p.stub(:prefix).and_return(prefix)
-          p.to_s.should == lines.map { |ts, ls| "#{prefix}: #{ts}" << " " << ls.map { |l| "#{l}" }.join("\n") << "\n" }
+          p.to_s.should == lines.map { |t, ls| "#{prefix}" << ls.map { |l| "#{l}" }.join("\n") }.join("\n")
         end
       end
 
