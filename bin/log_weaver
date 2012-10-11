@@ -2,24 +2,43 @@
 
 require 'optparse'
 require 'methadone'
+
+#TODO: i think cuke needs gem installed, while debugging
+# in rubymine needs it uninstalled - need to prioritize the load path better
+$LOAD_PATH << File.expand_path('../../lib' , __FILE__)
 require 'log_weaver'
 
 include LogWeaver::CLI
 
+
+module Methadone
+  module Main
+    include LogWeaver
+
+
+    def do_main(file1, file2)
+      exit_now!("File '#{file1}' does not exist!") unless File.exists? file1
+      exit_now!("File '#{file2}' does not exist!") unless File.exists? file2
+      files = [file1, file2 ]
+      file_prefixes = get_file_prefixes(files)
+      p = ParsedLog.new(StringIO.new(File.open(file1).read), file_prefixes[file1])
+      #parsed_logs = files.map{ |f| ParsedLog.new(StringIO.new(File.open(f).read), file_prefixes[f]) }
+      #overall_log = parsed_logs.reduce(:+)
+      0
+    end
+
+
+  end
+end
+
+
 class App
   include Methadone::Main
   include Methadone::CLILogging
-  include LogWeaver
 
   main do |file1, file2|
-    exit_now!("File '#{file1}' does not exist!") unless File.exists? file1
-    exit_now!("File '#{file2}' does not exist!") unless File.exists? file2
-    files = [file1, file2 ]
-    file_prefixes = get_file_prefixes(files)
-    parsed_logs = files.map{ |f| ParsedLog.new(StringIO.new(File.open(f).read), file_prefixes[f]) }
-    overall_log = parsed_logs.reduce(:+)
+    do_main file1, file2
   end
-
 
   description "Weaves logs by timestamp."
 
@@ -33,4 +52,5 @@ class App
   use_log_level_option
 
   go!
+
 end
