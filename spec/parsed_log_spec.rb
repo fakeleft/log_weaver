@@ -44,8 +44,8 @@ module LogWeaver
     end
 
     describe ".parse_log" do
+      let(:t) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
       it "parses lines with different time stamps" do
-        t = Time.parse(Time.now.to_s) # NOTE: init time this way to drop values below msec
         log = StringIO.new(<<-file_contents.unindent
                               #{t} - hello
                               #{(t + 1)} - world
@@ -53,11 +53,8 @@ module LogWeaver
                           )
         ParsedLog.parse_log(log).should == { t => ["#{t} - hello"], (t+1) => ["#{t+1} - world"]}
       end
-
       it "parses a log where the first line has no timestamp" do
         # TODO: subtract a ms from first time stamp?
-
-        t = Time.parse(Time.now.to_s) # NOTE: init time this way to drop values below msec
         log = StringIO.new(<<-file_contents.unindent
                               hello
                               #{(t + 1)} - world
@@ -65,9 +62,7 @@ module LogWeaver
         )
         expect{ ParsedLog.parse_log(log) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
       end
-
       it "associates lines with no timestamp with preceding timestamp " do
-        t = Time.parse(Time.now.to_s) # NOTE: init time this way to drop values below msec
         log = StringIO.new(<<-file_contents.unindent
                               #{t} - hello
                               hi
