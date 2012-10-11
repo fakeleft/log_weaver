@@ -43,17 +43,17 @@ Feature: run command line app; weave log files by timestamp
   Scenario: first file has name shorter than 4
     Given a file named "fil" with:
     """
-    line1
+    2012-01-01 00:00:00.001 - line1
     """
     And a file named "file2" with:
     """
-    line2
+    2012-01-01 00:00:00.002 - line2
     """
     When I successfully run `log_weaver fil file2`
     Then the output should match:
     """
-    fil:  line1
-    file: line2
+    fil:   2012-01-01 00:00:00.001 - line1
+    file2: 2012-01-01 00:00:00.002 - line2
     """
 
   Scenario: 2 files where timestamps in file1 come before timestamps in file2
