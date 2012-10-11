@@ -39,7 +39,6 @@ Feature: run command line app; weave log files by timestamp
   # than 4, more if resulting prefixes match; pad things so lines start in the same column
   # scenarios below use lines with no timestamp - output is in the same order as the file
   # arguments
-  @wip
   Scenario: first file has name shorter than 4
     Given a file named "fil" with:
     """
@@ -52,8 +51,8 @@ Feature: run command line app; weave log files by timestamp
     When I successfully run `log_weaver fil file2`
     Then the output should match:
     """
-    fil:   2012-01-01 00:00:00.001 - line1
-    file2: 2012-01-01 00:00:00.002 - line2
+    fil:  2012-01-01 00:00:00.001 - line1
+    file: 2012-01-01 00:00:00.002 - line2
     """
 
   Scenario: 2 files where timestamps in file1 come before timestamps in file2
