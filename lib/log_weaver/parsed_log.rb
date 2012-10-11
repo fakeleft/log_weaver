@@ -2,6 +2,7 @@ require 'time'
 
 module LogWeaver
   class ParsedLog
+    attr_accessor :lines
 
     def initialize(log, prefix)
       @prefix = prefix
@@ -12,8 +13,10 @@ module LogWeaver
       res = @lines.map{ |t, ls| ls.map{ |l| "#{@prefix}#{l}"}.join("\n")}.join("\n")
     end
 
-    def +
-
+    def +(other)
+      res = self.dup
+      res.lines = self.lines.merge other.lines
+      res
     end
 
     #private TODO: see http://stackoverflow.com/questions/4952980/creating-private-class-method; test per

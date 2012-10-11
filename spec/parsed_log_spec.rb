@@ -20,6 +20,19 @@ module LogWeaver
         end
       end
 
+      describe "#+" do
+        it "concatenates line hashes" do
+          lines = { t => ["#{t} - hello"] }
+          p = ParsedLog.new(StringIO.new, "")
+          p.stub(:lines).and_return(lines)
+          lines2 = { t + 1 => ["#{t + 1} - world"] }
+          p2 = ParsedLog.new(StringIO.new, "")
+          p2.stub(:lines).and_return(lines2)
+          sum = p + p2
+          sum.instance_variable_get(:@lines).should == lines.merge(lines2)
+        end
+      end
+
       describe ".initialize" do
         it "stores the prefix" do
           ParsedLog.new(StringIO.new, "prefix").instance_variable_get(:@prefix).should == "prefix"
