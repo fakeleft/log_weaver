@@ -4,13 +4,6 @@ require 'unindent'
 
 #include LogWeaver::ParsedLog
 
-class Time
-  def to_s
-    self.strftime("%Y-%m-%d %H:%M:%S.%L")
-  end
-end
-
-
 module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
