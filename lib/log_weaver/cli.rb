@@ -2,6 +2,12 @@ require 'methadone'
 
 include Methadone::Main
 
+class Array
+  def uniq?
+   self.length == self.uniq.length
+  end
+end
+
 module LogWeaver
   module CLI
 
@@ -10,28 +16,67 @@ module LogWeaver
     # 2. prefixes have to be at least as long as min_length, unless file name is shorter
     # 3. if file names match, and are shorter than min_length, grab whole directories from directory path until they don't match
     # results are returned as a hash keyed on passed-in file names
-    def get_file_prefixes(files, min_length = 4)
-      file_names = files.each{}
-      files = files.sort_by(&:length)
-      prefix = get_longest_common_prefix files
-
-
-      files = {}
-      [file1, file2].each{ |f| files[File.expand_path(f)] = File.basename(f) }
-
+    def get_file_prefixes(file_paths, min_length = 4)
       # pseudocode:
-      # sort by base_name
+      # sort by base_name length
       # get common prefix of base_names
-      # append letters to prefix from file name until min_length or all unique
+      # append letters to prefix from file name at least until min_length and all unique
       # prepend directories until all unique
 
+      base_names = []
+      processed_file_paths = {}
+      max_base_name_length = 0
+      max_path_component_length = 0
 
-      case file1.length <=> file2.length
-        when -1
-
-        when 1
-        when 0
+      file_paths.each do |fp|
+        max_base_name_length = fp.length if fp.length > max_base_name_length
+        base_name = File.basename fp
+        base_names << base_name
+        processed_file_paths[fp] = {}
+        processed_file_paths[fp][:base_name] = base_name
+        processed_file_paths[fp][:fullpath] = File.expand_path(base_name)
+        path_dirs = processed_file_paths[fp][:fullpath].split('/')
+        path_dirs.pop
+        processed_file_paths[fp][:path_dirs] = path_dirs
+        max_path_component_length = processed_file_paths[fp][:path_dirs].length if processed_file_paths[fp][:path_dirs].length > max_path_component_length
       end
+
+
+      # initialize accumulator data structures with the common prefix
+      prefix = get_longest_common_prefix base_names
+      prefixes = []
+      file_paths.each do |fp|
+        processed_file_paths[fp][:prefix] = prefix.dup
+        prefixes << processed_file_paths[fp][:prefix]
+      end
+
+      # append as many remaining characters from file basename as it will take to take us
+      # over min_length and make each prefix unique
+      (prefix.length .. max_base_name_length - 1).each do |i|
+        file_paths.each do |fp|
+          # append an additional letter; note, if nil, to_s will convert it to ""
+          processed_file_paths[fp][:prefix] << processed_file_paths[fp][:base_name][i].to_s
+        end
+        if i+1 >= min_length
+          break if prefixes.uniq?
+        end
+      end
+
+      # prepend dir path components if still not unique
+      (0 .. max_path_component_length - 1).each do |i|
+        break if prefixes.uniq?
+        file_paths.each do |fp|
+          processed_file_paths[fp][:prefix].insert(0, processed_file_paths[fp][:path_dirs][i].to_s + "\\")
+        end
+      end
+
+      # pick out the results
+      res = {}
+      file_paths.each do |fp|
+        res[fp] = processed_file_paths[fp][:prefix]
+      end
+
+      res
     end
 
     def get_longest_common_prefix(words)

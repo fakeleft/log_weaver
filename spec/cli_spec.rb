@@ -7,14 +7,17 @@ module LogWeaver
   module CLI
 
     describe "#get_file_prefixes", wip: true do
+      context "file names don't share a prefix" do
+        it "should use a min_length of 4 by default" do
+          get_file_prefixes(%w{ 12345 abcde }).should == { "12345" => "1234", "abcde" => "abcd" }
+          get_file_prefixes(%w{ 12345 abcd  }).should == { "12345" => "1234", "abcd"  => "abcd" }
+          get_file_prefixes(%w{ 1234  abcde }).should == { "1234"  => "1234", "abcde" => "abcd" }
+          get_file_prefixes(%w{ 1234  abcd  }).should == { "1234"  => "1234", "abcd"  => "abcd" }
+          get_file_prefixes(%w{ 12345 abcde 54321 }).should == { "12345" => "1234", "abcde" => "abcd", "54321" => "5432" }
+        end
 
-      it "simple names; min_length should be 4 by default" do
-        get_file_prefixes(%w{ file1 file2 }).should == %w{ file1 file }
-        #get_file_prefixes(%w{ file1 file }).should == %w{ file1 file }
-        #get_file_prefixes(%w{ file file2 }).should == %w{ file file2 }
 
       end
-
     end
 
     describe "#get_longest_common_prefix" do
