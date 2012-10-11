@@ -45,13 +45,13 @@ module LogWeaver
 
     describe ".parse_log" do
       it "parses lines with different time stamps" do
-        t = Time.now
+        t = Time.parse(Time.now.to_s) # NOTE: init time this way to drop values below msec
         log = StringIO.new(<<-file_contents.unindent
                               #{t} - hello
                               #{(t + 1)} - world
                             file_contents
                           )
-        ParsedLog.parse_log(log).should == { t => [" - hello"], (t+1) => [" - world"]}
+        ParsedLog.parse_log(log).should == { t => ["#{t} - hello"], (t+1) => ["#{t+1} - world"]}
       end
     end
 

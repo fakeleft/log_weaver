@@ -18,13 +18,14 @@ module LogWeaver
     # http://kailuowang.blogspot.ca/2010/08/testing-private-methods-in-rspec.html
     def self.parse_log(log)
       res = {}
-      log.split("\n").each do |l|
-        (t, rest) = extract_time_stamp(l)
+      log.string.split("\n").each do |l|
+        t = extract_time_stamp(l)
         if t
-
+          res[t] = [l]
         end
       end
 
+      res
     end
 
     def self.extract_time_stamp(line)
