@@ -22,6 +22,13 @@ module LogWeaver
         get_longest_common_prefix(["a", nil, ""]).should be_nil
         get_longest_common_prefix(["a", nil, "b"]).should be_nil
       end
+
+      it "should return a blank string if there is no common prefix" do
+        get_longest_common_prefix(%w{ a b }).should == ""
+        get_longest_common_prefix(%w{ aa ba }).should == ""
+        get_longest_common_prefix(%w{ aa ba a }).should == ""
+        get_longest_common_prefix(%w{ a ba aa }).should == ""
+      end
     end
   end
 end

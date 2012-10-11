@@ -28,6 +28,12 @@ module LogWeaver
 
     def get_longest_common_prefix(words)
       return nil if words.include? nil
+      prefix =  words.shift
+      until prefix == ""
+        break if words.all?{ |w| w =~ /^prefix/ }
+        prefix.chop!
+      end
+      prefix
     end
 
   end
