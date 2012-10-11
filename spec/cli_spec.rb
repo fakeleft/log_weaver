@@ -9,37 +9,37 @@ module LogWeaver
     describe "#get_file_prefixes" do
       context "file names don't share a prefix" do
         it "should use a min_length of 4 by default" do
-          get_file_prefixes(%w{ 12345 abcde }).should == { "12345" => "1234", "abcde" => "abcd" }
-          get_file_prefixes(%w{ 12345 abcd  }).should == { "12345" => "1234", "abcd"  => "abcd" }
-          get_file_prefixes(%w{ 1234  abcde }).should == { "1234"  => "1234", "abcde" => "abcd" }
-          get_file_prefixes(%w{ 1234  abcd  }).should == { "1234"  => "1234", "abcd"  => "abcd" }
-          get_file_prefixes(%w{ 12345 abcde 54321 }).should == { "12345" => "1234", "abcde" => "abcd", "54321" => "5432" }
+          get_file_prefixes(%w{ 12345 abcde }).should == { "12345" => "1234: ", "abcde" => "abcd: " }
+          get_file_prefixes(%w{ 12345 abcd  }).should == { "12345" => "1234: ", "abcd"  => "abcd: " }
+          get_file_prefixes(%w{ 1234  abcde }).should == { "1234"  => "1234: ", "abcde" => "abcd: " }
+          get_file_prefixes(%w{ 1234  abcd  }).should == { "1234"  => "1234: ", "abcd"  => "abcd: " }
+          get_file_prefixes(%w{ 12345 abcde 54321 }).should == { "12345" => "1234: ", "abcde" => "abcd: ", "54321" => "5432: " }
         end
         it "should handle file names shorter than min length" do
-          get_file_prefixes(%w{ 12345 f }).should == { "12345" => "1234", "f" => "f" }
-          get_file_prefixes(%w{ f 12345 }).should == { "f" => "f", "12345" => "1234" }
+          get_file_prefixes(%w{ 12345 f }).should == { "12345" => "1234: ", "f" => "f:    " }
+          get_file_prefixes(%w{ f 12345 }).should == { "f" => "f:    ", "12345" => "1234: " }
         end
         it "should respond to the min_length param" do
-          get_file_prefixes(%w{ 12345 abc f }, 3).should == { "12345" => "123", "abc" => "abc", "f" => "f" }
+          get_file_prefixes(%w{ 12345 abc f }, 3).should == { "12345" => "123: ", "abc" => "abc: ", "f" => "f:   " }
         end
       end
       context "file names share a prefix" do
         it "should get prefix for files longer than default min_length" do
-          get_file_prefixes(%w{ 12345 1234a }).should == { "12345" => "12345", "1234a" => "1234a" }
+          get_file_prefixes(%w{ 12345 1234a }).should == { "12345" => "12345: ", "1234a" => "1234a: " }
         end
         it "should get prefix for files shorter than default min_length" do
-          get_file_prefixes(%w{ 123 12a }).should == { "123" => "123", "12a" => "12a" }
+          get_file_prefixes(%w{ 123 12a }).should == { "123" => "123: ", "12a" => "12a: " }
         end
         it "should get prefix for a mix of file name lengths" do
-          get_file_prefixes(%w{ 12345 a 1234 }).should == { "12345" => "12345", "a" => "a", "1234" => "1234" }
+          get_file_prefixes(%w{ 12345 a 1234 }).should == { "12345" => "12345: ", "a" => "a:     ", "1234" => "1234:  " }
         end
       end
       context "file names are the same" do
         it "should prepend the directory portion of the path" do
-          get_file_prefixes(%w{ a/a b/a }).should == { "a/a" => "a/a", "b/a" => "b/a" }
-          get_file_prefixes(%w{ a/b/a b/c/a }).should == { "a/b/a" => "b/a", "b/c/a" => "c/a" }
-          get_file_prefixes(%w{ a/a a/../b/a }).should == { "a/a" => "a/a", "a/../b/a" => "b/a" }
-          get_file_prefixes(%w{ a/a b/a c/a}).should == { "a/a" => "a/a", "b/a" => "b/a", "c/a" => "c/a" }
+          get_file_prefixes(%w{ a/a b/a }).should == { "a/a" => "a/a: ", "b/a" => "b/a: " }
+          get_file_prefixes(%w{ a/b/a b/c/a }).should == { "a/b/a" => "b/a: ", "b/c/a" => "c/a: " }
+          get_file_prefixes(%w{ a/a a/../b/a }).should == { "a/a" => "a/a: ", "a/../b/a" => "b/a: " }
+          get_file_prefixes(%w{ a/a b/a c/a}).should == { "a/a" => "a/a: ", "b/a" => "b/a: ", "c/a" => "c/a: " }
         end
       end
       context "file paths expand to the same file" do

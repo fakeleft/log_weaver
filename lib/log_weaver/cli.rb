@@ -75,8 +75,15 @@ module LogWeaver
 
       # pick out the results
       res = {}
+      longest_prefix_length = 0
       file_paths.each do |fp|
         res[fp] = processed_file_paths[fp][:prefix]
+        longest_prefix_length = res[fp].length if res[fp].length > longest_prefix_length
+      end
+
+      file_paths.each do |fp|
+        orig_prefix_length = res[fp].length
+        res[fp] << ": " << " " * (longest_prefix_length - orig_prefix_length)
       end
 
       res
