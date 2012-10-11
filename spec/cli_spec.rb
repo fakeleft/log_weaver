@@ -15,8 +15,10 @@ module LogWeaver
           get_file_prefixes(%w{ 1234  abcd  }).should == { "1234"  => "1234", "abcd"  => "abcd" }
           get_file_prefixes(%w{ 12345 abcde 54321 }).should == { "12345" => "1234", "abcde" => "abcd", "54321" => "5432" }
         end
-
-
+        it "should handle file names shorter than min length" do
+          get_file_prefixes(%w{ 12345 f }).should == { "12345" => "1234", "f" => "f" }
+          get_file_prefixes(%w{ f 12345 }).should == { "f" => "f", "12345" => "1234" }
+        end
       end
     end
 
