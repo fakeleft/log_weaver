@@ -19,6 +19,9 @@ module LogWeaver
           get_file_prefixes(%w{ 12345 f }).should == { "12345" => "1234", "f" => "f" }
           get_file_prefixes(%w{ f 12345 }).should == { "f" => "f", "12345" => "1234" }
         end
+        it "should respond to the min_length param" do
+          get_file_prefixes(%w{ 12345 abc f }, 3).should == { "12345" => "123", "abc" => "abc", "f" => "f" }
+        end
       end
     end
 
