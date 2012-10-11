@@ -30,6 +30,10 @@ Feature: run command line app; weave log files by timestamp
     Then the exit status should not be 0
     And the stderr should contain "File 'file2' does not exist!"
 
+  Scenario: file1 given twice
+
+
+
   # each line in the output should be prefixed by a portion of its file name so it's clear
   # which file it came from; use at least 4 characters, less file name is shorter
   # than 4, more if resulting prefixes match; pad things so lines start in the same column
