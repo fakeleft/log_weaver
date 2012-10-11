@@ -13,7 +13,7 @@ class App
   main do |file1, file2|
     exit_now!("File '#{file1}' does not exist!") unless File.exists? file1
     exit_now!("File '#{file2}' does not exist!") unless File.exists? file2
-    (file1_prefix, file2_prefix) = get_file_prefixes(file1,file2)
+    (file1_prefix, file2_prefix) = get_file_prefixes(file1, file2)
   end
 
 
