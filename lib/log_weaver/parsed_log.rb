@@ -3,8 +3,9 @@ require 'time'
 module LogWeaver
   class ParsedLog
 
-    def initialize(file, prefix)
+    def initialize(log, prefix)
       @prefix = prefix
+      @lines = ParsedLog.parse_log log
     end
 
     def to_s
