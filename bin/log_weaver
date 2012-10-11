@@ -8,10 +8,8 @@ class App
   include Methadone::Main
   include Methadone::CLILogging
 
-  main do # Add args you want: |like,so|
-    # your program code here
-    # You can access CLI options via
-    # the options Hash
+  main do |file1|
+    exit_now!("File '#{file1}' does not exist!") unless File.exists? file1
   end
 
 

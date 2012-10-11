@@ -16,6 +16,11 @@ Feature: run command line app; weave log files by timestamp
       | additional_files | which is optional |
 
 
-
+  Scenario: Handle non-existent first file
+    Given no file named "file1"
+    And an empty file named "file2"
+    When I run `log_weaver file1 file2`
+    Then the exit status should not be 0
+    And the stderr should contain "File 'file1' does not exist!"
 
 
