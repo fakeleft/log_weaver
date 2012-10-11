@@ -27,6 +27,9 @@ module LogWeaver
     end
 
     describe "#initialize" do
+      it "stores the prefix" do
+        ParsedLog.new( nil, "prefix").instance_variable_get(:@prefix).should == "prefix"
+      end
       it "parses the given log file by timestamp" do
         now = Time.now
         log = StringIO.new(<<-file_contents.unindent

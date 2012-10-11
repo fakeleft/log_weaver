@@ -2,7 +2,7 @@ module LogWeaver
   class ParsedLog
 
     def initialize file, prefix
-
+      @prefix = prefix
     end
 
     def to_s
