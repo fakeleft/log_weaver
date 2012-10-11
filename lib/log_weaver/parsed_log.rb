@@ -1,3 +1,5 @@
+require 'time'
+
 module LogWeaver
   class ParsedLog
 
@@ -26,7 +28,7 @@ module LogWeaver
     end
 
     def self.extract_time_stamp(line)
-
+      (line =~ /^[0-9]{4}-[01][0-9]-[0-3][0-9] [0-2][0-9](:[0-5][0-9]){2}\.[0-9]{3}/).nil? ? nil : Time.parse(line)
     end
 
   end
