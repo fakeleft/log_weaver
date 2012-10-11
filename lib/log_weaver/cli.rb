@@ -26,7 +26,9 @@ module LogWeaver
       end
     end
 
-
+    def get_longest_common_prefix(words)
+      return nil if words.include? nil
+    end
 
   end
 end

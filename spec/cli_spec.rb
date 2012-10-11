@@ -14,5 +14,14 @@ module LogWeaver
 
     end
 
+    describe "#get_longest_common_prefix" do
+      it "should return nil if one of the strings is nil" do
+        get_longest_common_prefix([nil]).should be_nil
+        get_longest_common_prefix(["", nil]).should be_nil
+        get_longest_common_prefix(["a", nil]).should be_nil
+        get_longest_common_prefix(["a", nil, ""]).should be_nil
+        get_longest_common_prefix(["a", nil, "b"]).should be_nil
+      end
+    end
   end
 end
