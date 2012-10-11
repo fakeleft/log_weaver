@@ -6,6 +6,7 @@ require 'unindent'
 
 module LogWeaver
   class ParsedLog
+
     describe "#to_s" do
       it "prints the log to a string" do
         now = Time.now
@@ -17,6 +18,7 @@ module LogWeaver
         p.to_s.should == lines.map{ |t, ls| "#{prefix}: #{t.strftime("%Y-%m-%d %H:%M:%S.%L")}" << " " << ls.map{ |l| "#{l}"}.join("\n")  << "\n"}
       end
     end
+
     describe "#initialize" do
       it "parses the given log file by timestamp" do
         now = Time.now
@@ -30,5 +32,6 @@ module LogWeaver
       end
 
     end
+
   end
 end
