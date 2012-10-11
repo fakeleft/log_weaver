@@ -20,7 +20,12 @@ module LogWeaver
       [file1, file2].each{ |f| files[File.expand_path(f)] = File.basename(f) }
 
       # pseudocode:
-      #
+      # sort by base_name
+      # get common prefix of base_names
+      # append letters to prefix from file name until min_length or all unique
+      # prepend directories until all unique
+
+
       case file1.length <=> file2.length
         when -1
 
