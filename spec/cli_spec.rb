@@ -6,7 +6,7 @@ include LogWeaver::CLI
 module LogWeaver
   module CLI
 
-    describe "#get_file_prefixes", wip: true do
+    describe "#get_file_prefixes" do
       context "file names don't share a prefix" do
         it "should use a min_length of 4 by default" do
           get_file_prefixes(%w{ 12345 abcde }).should == { "12345" => "1234", "abcde" => "abcd" }
