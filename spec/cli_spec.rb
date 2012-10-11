@@ -23,6 +23,17 @@ module LogWeaver
           get_file_prefixes(%w{ 12345 abc f }, 3).should == { "12345" => "123", "abc" => "abc", "f" => "f" }
         end
       end
+      context "file names share a prefix" do
+        it "should get prefix for files longer than default min_length" do
+          get_file_prefixes(%w{ 12345 1234a }).should == { "12345" => "12345", "1234a" => "1234a" }
+        end
+        it "should get prefix for files shorter than default min_length" do
+          get_file_prefixes(%w{ 123 12a }).should == { "123" => "123", "12a" => "12a" }
+        end
+        it "should get prefix for a mix of file name lengths" do
+          get_file_prefixes(%w{ 12345 a 1234 }).should == { "12345" => "12345", "a" => "a", "1234" => "1234" }
+        end
+      end
     end
 
     describe "#get_longest_common_prefix" do
