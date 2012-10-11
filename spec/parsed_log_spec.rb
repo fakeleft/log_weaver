@@ -31,14 +31,15 @@ module LogWeaver
         ParsedLog.new( nil, "prefix").instance_variable_get(:@prefix).should == "prefix"
       end
       it "parses the given log file by timestamp" do
-        now = Time.now
+        t = Time.now
         log = StringIO.new(<<-file_contents.unindent
-                                #{now} - hello
-                                #{(now + 1)} - world
+                                #{t} - hello
+                                #{(t + 1)} - world
                               file_contents
                           )
+        pl = ParsedLog.new log, "prefix"
+        pl.instance_variable_get(:@lines).should == { t => [" - hello"], (t+1) => [" - world"]}
 
-        puts log.string
       end
 
     end

@@ -1,7 +1,7 @@
 module LogWeaver
   class ParsedLog
 
-    def initialize file, prefix
+    def initialize(file, prefix)
       @prefix = prefix
     end
 
@@ -10,6 +10,10 @@ module LogWeaver
     end
 
     def +
+
+    end
+    private
+    def parse_log(log)
 
     end
 
