@@ -30,6 +30,28 @@ Feature: run command line app; weave log files by timestamp
     Then the exit status should not be 0
     And the stderr should contain "File 'file2' does not exist!"
 
+  # each line in the output should be prefixed by a portion of its file name so it's clear
+  # which file it came from; use at least 4 characters, less file name is shorter
+  # than 4, more if resulting prefixes match; pad things so lines start in the same column
+  # scenarios below use lines with no timestamp - output is in the same order as the file
+  # arguments
+  @wip
+  Scenario: first file has name shorter than 4
+    Given a file named "fil" with:
+    """
+    line1
+    """
+    And a file named "file2" with:
+    """
+    line2
+    """
+    When I successfully run `log_weaver fil file2`
+    Then the output should match:
+    """
+    fil:  line1
+    file: line2
+    """
+
   Scenario: 2 files where timestamps in file1 come before timestamps in file2
     Given a file named "file1" with:
     """
