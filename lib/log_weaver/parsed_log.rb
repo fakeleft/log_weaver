@@ -9,12 +9,13 @@ module LogWeaver
     end
 
     def to_s
-      lines.map{ |t, ls| "#{prefix}: #{t.strftime("%Y-%m-%d %H:%M:%S.%L")}" << " " << ls.map{ |l| "#{l}"}.join("\n") << "\n" }
+      res = @lines.map{ |t, ls| ls.map{ |l| "#{@prefix}#{l}"}.join("\n")}.join("\n")
     end
 
     def +
 
     end
+
     #private TODO: see http://stackoverflow.com/questions/4952980/creating-private-class-method; test per
     # http://kailuowang.blogspot.ca/2010/08/testing-private-methods-in-rspec.html
     def self.parse_log(log)
