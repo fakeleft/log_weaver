@@ -21,10 +21,9 @@ module Methadone
       exit_now!("File '#{file2}' does not exist!") unless File.exists? file2
       files = [file1, file2 ]
       file_prefixes = get_file_prefixes(files)
-      p = ParsedLog.new(StringIO.new(File.open(file1).read), file_prefixes[file1])
-      #parsed_logs = files.map{ |f| ParsedLog.new(StringIO.new(File.open(f).read), file_prefixes[f]) }
-      #overall_log = parsed_logs.reduce(:+)
-      0
+      parsed_logs = files.map{ |f| ParsedLog.new(StringIO.new(File.open(f).read), file_prefixes[f]) }
+      overall_log = parsed_logs.reduce(:+)
+      puts overall_log
     end
 
 
