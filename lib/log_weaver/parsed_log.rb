@@ -22,6 +22,10 @@ module LogWeaver
         t = extract_time_stamp(l)
         if t
           res[t] = [l]
+          previous_t = t
+        else
+          raise ArgumentError, "Log does not begin with a timestamp." unless defined? prevous_t
+          res[previous_t] << t
         end
       end
 
