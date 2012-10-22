@@ -30,8 +30,15 @@ Feature: run command line app; weave log files by timestamp
     Then the exit status should not be 0
     And the stderr should contain "File 'file2' does not exist!"
 
+  #TODO: test (file2 file1 file1), (file1, file2, file1), etc
   Scenario: file1 given twice
-
+    Given a file named "file1" with:
+    """
+    2012-01-01 00:00:00.001 - line1
+    """
+    When I run `log_weaver file1 file1`
+    Then the exit status should not be 0
+    And the stderr should contain "File list is not unique."
 
 
   # each line in the output should be prefixed by a portion of its file name so it's clear
