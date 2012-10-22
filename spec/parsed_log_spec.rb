@@ -46,7 +46,13 @@ module LogWeaver
           parsed_empty_log1.stub(:lines).and_return(lines)
           parsed_empty_log2.stub(:lines).and_return(lines2)
           sum = parsed_empty_log1 + parsed_empty_log2
-          sum.instance_variable_get(:@lines).should == lines.merge(lines2)
+          sum.instance_variable_get(:@lines).to_a.should == (Hash[lines.merge(lines2).sort]).to_a
+        end
+        it "concatenates and sorts line hashes" do
+          parsed_empty_log1.stub(:lines).and_return(lines2)
+          parsed_empty_log2.stub(:lines).and_return(lines)
+          sum = parsed_empty_log1 + parsed_empty_log2
+          sum.instance_variable_get(:@lines).to_a.should == (Hash[lines.merge(lines2).sort]).to_a
         end
       end
 

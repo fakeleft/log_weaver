@@ -16,7 +16,7 @@ module LogWeaver
 
     def +(other)
       res = self.dup
-      res.lines = self.lines.merge other.lines
+      res.lines = Hash[self.lines.merge(other.lines).sort]
       res
     end
 
