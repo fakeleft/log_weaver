@@ -121,7 +121,6 @@ Feature: run command line app; weave log files by timestamp
     file2: 2012-01-01 00:00:00.003 - line3
     file2: 2012-01-01 00:00:00.004 - line4
     """
-  @wip
   Scenario: 2 files, same timestamps
     Given a file named "file1" with:
     """
@@ -139,9 +138,10 @@ Feature: run command line app; weave log files by timestamp
     file1: 2012-01-01 00:00:00.001 - line1
     file1: 2012-01-01 00:00:00.002 - line2 from file1
     file2: 2012-01-01 00:00:00.002 - line2 from file2
-    file2: 2012-01-01 00:00:00.004 - line4
+    file2: 2012-01-01 00:00:00.003 - line3
     """
 
+  @wip
   Scenario: 2 files where timestamps in file1 come after timestamps in file2
     Given a file named "file1" with:
     """
