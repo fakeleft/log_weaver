@@ -12,15 +12,15 @@ module LogWeaver
       let(:t1) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
       let(:t2) { t1 + 1 }
 
-      let(:t1_line) { "#{t1} - t1" }
-      let(:t2_line) { "#{t2} - t2" }
+      let(:t1_line) { "#{t1} - line1" }
+      let(:t2_line) { "#{t2} - line2" }
       let(:no_t_line) { "no t" }
 
       let(:t1_parsed_line) { "#{prefix}#{t1_line}" }
       let(:t2_parsed_line) { "#{prefix}#{t2_line}" }
 
-      let(:k1) { prefix + t1.to_s }
-      let(:k2) { prefix + t2.to_s }
+      let(:k1) { ParsedLogKey.new(prefix, t1, 1) }
+      let(:k2) { ParsedLogKey.new(prefix, t2, 1) }
       let(:lines) { { k1 => [t1_line] } }
       let(:lines2) { { k2 => [t2_line] } }
 
