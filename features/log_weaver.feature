@@ -173,3 +173,112 @@ Feature: run command line app; weave log files by timestamp
     file2: 2012-01-01 00:00:00.003 - line3
     """
 
+# ---------------------------------------------------------------
+# lines with no timestamp stick to preceding timestamp
+# ---------------------------------------------------------------
+  Scenario: 2 files, ordered timestamps, lines with no timestamp
+    Given a file named "file1" with:
+    """
+    2012-01-01 00:00:00.001 - line1
+    line1 with no timestamp
+     line2 with no timestamp
+    2012-01-01 00:00:00.002 - line2
+    """
+    And a file named "file2" with:
+    """
+    2012-01-01 00:00:00.003 - line3
+    line3 with no timestamp
+    2012-01-01 00:00:00.004 - line4
+    """
+    When I successfully run `log_weaver file1 file2`
+    Then the output should match:
+    """
+    file1: 2012-01-01 00:00:00.001 - line1
+    line1 with no timestamp
+     line2 with no timestamp
+    file1: 2012-01-01 00:00:00.002 - line2
+    file2: 2012-01-01 00:00:00.003 - line3
+    line3 with no timestamp
+    file2: 2012-01-01 00:00:00.004 - line4
+    """
+
+  Scenario: 2 files, timestamps in file1 come after timestamps in file2, lines with no timestamp
+    Given a file named "file1" with:
+    """
+    2012-01-01 00:00:00.003 - line3
+    line3 with no timestamp
+    2012-01-01 00:00:00.004 - line4
+    line4 with no timestamp
+    """
+    And a file named "file2" with:
+    """
+    2012-01-01 00:00:00.001 - line1
+    line1 with no timestamp
+    2012-01-01 00:00:00.002 - line2
+    line2 with no timestamp
+    """
+    When I successfully run `log_weaver file1 file2`
+    Then the output should match:
+    """
+    file2: 2012-01-01 00:00:00.001 - line1
+    line1 with no timestamp
+    file2: 2012-01-01 00:00:00.002 - line2
+    line2 with no timestamp
+    file1: 2012-01-01 00:00:00.003 - line3
+    line3 with no timestamp
+    file1: 2012-01-01 00:00:00.004 - line4
+    line4 with no timestamp
+    """
+
+  Scenario: 2 files, mixed timestamps, lines with no timestamp
+    Given a file named "file1" with:
+    """
+    2012-01-01 00:00:00.001 - line1
+    line1 with no timestamp
+    2012-01-01 00:00:00.003 - line3
+    line3 with no timestamp
+    """
+    And a file named "file2" with:
+    """
+    2012-01-01 00:00:00.002 - line2
+    line2 with no timestamp
+    2012-01-01 00:00:00.004 - line4
+    line4 with no timestamp
+    """
+    When I successfully run `log_weaver file1 file2`
+    Then the output should match:
+    """
+    file1: 2012-01-01 00:00:00.001 - line1
+    line1 with no timestamp
+    file2: 2012-01-01 00:00:00.002 - line2
+    line2 with no timestamp
+    file1: 2012-01-01 00:00:00.003 - line3
+    line3 with no timestamp
+    file2: 2012-01-01 00:00:00.004 - line4
+    line4 with no timestamp
+    """
+
+  Scenario: 2 files, timestamps out of order within a file (NOTE: having a log file with unordered timestamps is weird, but oh well)
+    Given a file named "file1" with:
+    """
+    2012-01-01 00:00:00.002 - line2
+    line2 with no timestamp
+    2012-01-01 00:00:00.001 - line1
+    line1 with no timestamp
+    """
+    And a file named "file2" with:
+    """
+    2012-01-01 00:00:00.003 - line3
+    line3 with no timestamp
+    """
+    When I successfully run `log_weaver file1 file2`
+    Then the output should match:
+    """
+    file1: 2012-01-01 00:00:00.001 - line1
+    line1 with no timestamp
+    file1: 2012-01-01 00:00:00.002 - line2
+    line2 with no timestamp
+    file2: 2012-01-01 00:00:00.003 - line3
+    line3 with no timestamp
+    """
+
