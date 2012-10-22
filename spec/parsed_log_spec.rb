@@ -26,7 +26,7 @@ module LogWeaver
 
       let(:empty_log) { StringIO.new }
       let(:fully_timestamped_log) { StringIO.new([t1_line, t2_line].join("\n")) }
-      let(:log_with_lines_missing_timestamps) { StringIO.new([t1_line, no_t_line, t2_line].join("\n")) }
+      let(:log_with_missing_timestamps) { StringIO.new([t1_line, no_t_line, t2_line].join("\n")) }
       let(:log_with_duplicate_timestamp) { StringIO.new([t1_line, t1_line].join("\n")) }
       let(:log_that_starts_with_no_timestamp) { StringIO.new([no_t_line, t2_line].join("\n")) }
 
@@ -74,7 +74,7 @@ module LogWeaver
           ParsedLog.parse_log(fully_timestamped_log, prefix).should == hash_with_one_line_per_timestamp
         end
         it "does not prepend the prefix to lines with no time stamp" do
-          ParsedLog.parse_log(log_with_lines_missing_timestamps, prefix).should == hash_with_more_than_one_line_per_timestamp
+          ParsedLog.parse_log(log_with_missing_timestamps, prefix).should == hash_with_more_than_one_line_per_timestamp
         end
         it "parses lines with different time stamps" do
           ParsedLog.parse_log(fully_timestamped_log, prefix).should == hash_with_one_line_per_timestamp
@@ -87,7 +87,7 @@ module LogWeaver
           expect { ParsedLog.parse_log(log_that_starts_with_no_timestamp) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
         end
         it "associates lines with no timestamp with preceding timestamp " do
-          ParsedLog.parse_log(log_with_lines_missing_timestamps, prefix).should == hash_with_more_than_one_line_per_timestamp
+          ParsedLog.parse_log(log_with_missing_timestamps, prefix).should == hash_with_more_than_one_line_per_timestamp
         end
       end
 
