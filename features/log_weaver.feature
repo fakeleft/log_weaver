@@ -41,6 +41,7 @@ Feature: run command line app; weave log files by timestamp
     And the stderr should contain "File list is not unique."
 
 
+  # TODO: replace with scenarios
   # each line in the output should be prefixed by a portion of its file name so it's clear
   # which file it came from; use at least 4 characters, less if file name is shorter
   # than 4, more if resulting prefixes match; pad things so lines start in the same column
