@@ -19,6 +19,7 @@ module LogWeaver
       let(:t2_parsed_line) { "#{prefix}#{t2_line}" }
 
       let(:k1) { ParsedLogKey.new(prefix, t1, 1) }
+      let(:k1b) { ParsedLogKey.new(prefix, t1, 2) }
       let(:k2) { ParsedLogKey.new(prefix, t2, 1) }
       let(:lines) { { k1 => [t1_line] } }
       let(:lines2) { { k2 => [t2_line] } }
@@ -26,6 +27,7 @@ module LogWeaver
       let(:empty_log) { StringIO.new }
       let(:fully_timestamped_log) { StringIO.new([t1_line, t2_line].join("\n")) }
       let(:log_with_lines_missing_timestamps) { StringIO.new([t1_line, no_t_line, t2_line].join("\n")) }
+      let(:log_with_duplicate_timestamp) { StringIO.new([t1_line, t1_line].join("\n")) }
       let(:log_that_starts_with_no_timestamp) { StringIO.new([no_t_line, t2_line].join("\n")) }
 
       let(:parsed_empty_log1) { ParsedLog.new(empty_log, prefix) }
@@ -33,6 +35,7 @@ module LogWeaver
       let(:parsed_fully_timestamped_log) { ParsedLog.new(fully_timestamped_log, prefix) }
 
       let(:hash_with_one_line_per_timestamp) { { k1 => [t1_parsed_line], k2 => [t2_parsed_line] } }
+      let(:hash_with_duplicate_timestamps) { { k1 => [t1_parsed_line], k1b => [t1_parsed_line] } }
       let(:hash_with_more_than_one_line_per_timestamp) { { k1 => [t1_parsed_line, no_t_line], k2 => [t2_parsed_line] } }
 
       describe ".initialize" do
@@ -75,6 +78,9 @@ module LogWeaver
         end
         it "parses lines with different time stamps" do
           ParsedLog.parse_log(fully_timestamped_log, prefix).should == hash_with_one_line_per_timestamp
+        end
+        it "handles lines with the same time stamp" do
+          ParsedLog.parse_log(log_with_duplicate_timestamp, prefix).should == hash_with_duplicate_timestamps
         end
         it "parses a log where the first line has no timestamp" do
           # TODO: subtract a ms from first time stamp?

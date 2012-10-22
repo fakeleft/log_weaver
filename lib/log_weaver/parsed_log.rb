@@ -30,6 +30,9 @@ module LogWeaver
 
         if t
           key = ParsedLogKey.new(prefix, t, 1)
+          unless previous_key.nil?
+            key = ParsedLogKey.new(prefix, t, previous_key.count + 1) if t == previous_key.timestamp
+          end
           res[key] = []
           previous_key = key
         else
