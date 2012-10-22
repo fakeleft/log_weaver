@@ -78,6 +78,21 @@ Feature: run command line app; weave log files by timestamp
     file2: 2012-01-01 00:00:00.002 - line2
     """
 
+  Scenario: same file name, diff directory
+    Given a file named "a/file" with:
+    """
+    2012-01-01 00:00:00.001 - line1
+    """
+    And a file named "b/file" with:
+    """
+    2012-01-01 00:00:00.002 - line2
+    """
+    When I successfully run `log_weaver a/file b/file`
+    Then the output should match:
+    """
+    a/file: 2012-01-01 00:00:00.001 - line1
+    b/file: 2012-01-01 00:00:00.002 - line2
+    """
 
   Scenario: 2 files where timestamps in file1 come before timestamps in file2
     Given a file named "file1" with:
