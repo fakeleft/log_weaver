@@ -34,6 +34,15 @@ module LogWeaver
       let(:hash_with_one_line_per_timestamp) { { t1 => [t1_parsed_line], t2 => [t2_parsed_line] } }
       let(:hash_with_more_than_one_line_per_timestamp) { { t1 => [t1_parsed_line, no_t_line], t2 => [t2_parsed_line] } }
 
+      describe ".initialize" do
+        it "stores the prefix" do
+          parsed_empty_log1.instance_variable_get(:@prefix).should == prefix
+        end
+        it "parses the given log file by timestamp" do
+          parsed_fully_timestamped_log.instance_variable_get(:@lines).should == hash_with_one_line_per_timestamp
+        end
+      end
+
       describe "#to_s" do
         it "prints the log to a string" do
           parsed_empty_log1.stub(:lines).and_return(lines)
@@ -53,15 +62,6 @@ module LogWeaver
           parsed_empty_log2.stub(:lines).and_return(lines)
           sum = parsed_empty_log1 + parsed_empty_log2
           sum.instance_variable_get(:@lines).to_a.should == (Hash[lines.merge(lines2).sort]).to_a
-        end
-      end
-
-      describe ".initialize" do
-        it "stores the prefix" do
-          parsed_empty_log1.instance_variable_get(:@prefix).should == prefix
-        end
-        it "parses the given log file by timestamp" do
-          parsed_fully_timestamped_log.instance_variable_get(:@lines).should == hash_with_one_line_per_timestamp
         end
       end
 
