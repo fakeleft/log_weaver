@@ -11,7 +11,7 @@ end
 module LogWeaver
   module CLI
 
-    # given an array of file names, generate file name prefixes given the following rules:
+    # given an array of file paths, generate file name prefixes given the following rules:
     # 1. prefixes have to differ
     # 2. prefixes have to be at least as long as min_length, unless file name is shorter
     # 3. if file names match, and are shorter than min_length, grab whole directories from directory path until they don't match
