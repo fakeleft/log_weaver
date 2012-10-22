@@ -16,10 +16,9 @@ module Methadone
     include LogWeaver
 
 
-    def do_main(file1, file2)
-      exit_now!("File '#{file1}' does not exist!") unless File.exists? file1
-      exit_now!("File '#{file2}' does not exist!") unless File.exists? file2
-      files = [file1, file2 ]
+    def do_main(file1, file2, additional_files)
+      files = [file1, file2, *additional_files ]
+      files.each{ |f| exit_now!("File '#{f}' does not exist!") unless File.exists? f }
 
       begin
         file_prefixes = get_file_prefixes(files)
@@ -41,8 +40,8 @@ class App
   include Methadone::Main
   include Methadone::CLILogging
 
-  main do |file1, file2|
-    do_main file1, file2
+  main do |file1, file2, additional_files|
+    do_main file1, file2, additional_files
   end
 
   description "Weaves logs by timestamp."
