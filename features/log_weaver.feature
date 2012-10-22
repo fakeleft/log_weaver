@@ -121,6 +121,26 @@ Feature: run command line app; weave log files by timestamp
     file2: 2012-01-01 00:00:00.003 - line3
     file2: 2012-01-01 00:00:00.004 - line4
     """
+  @wip
+  Scenario: 2 files, same timestamps
+    Given a file named "file1" with:
+    """
+    2012-01-01 00:00:00.001 - line1
+    2012-01-01 00:00:00.002 - line2 from file1
+    """
+    And a file named "file2" with:
+    """
+    2012-01-01 00:00:00.002 - line2 from file2
+    2012-01-01 00:00:00.003 - line3
+    """
+    When I successfully run `log_weaver file1 file2`
+    Then the output should match:
+    """
+    file1: 2012-01-01 00:00:00.001 - line1
+    file1: 2012-01-01 00:00:00.002 - line2 from file1
+    file2: 2012-01-01 00:00:00.002 - line2 from file2
+    file2: 2012-01-01 00:00:00.004 - line4
+    """
 
   Scenario: 2 files where timestamps in file1 come after timestamps in file2
     Given a file named "file1" with:

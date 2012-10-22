@@ -19,8 +19,10 @@ module LogWeaver
       let(:t1_parsed_line) { "#{prefix}#{t1_line}" }
       let(:t2_parsed_line) { "#{prefix}#{t2_line}" }
 
-      let(:lines) { { t1 => [t1_line] } }
-      let(:lines2) { { t2 => [t2_line] } }
+      let(:k1) { prefix + t1.to_s }
+      let(:k2) { prefix + t2.to_s }
+      let(:lines) { { k1 => [t1_line] } }
+      let(:lines2) { { k2 => [t2_line] } }
 
       let(:empty_log) { StringIO.new }
       let(:fully_timestamped_log) { StringIO.new([t1_line, t2_line].join("\n")) }
@@ -31,8 +33,8 @@ module LogWeaver
       let(:parsed_empty_log2) { ParsedLog.new(empty_log, prefix) }
       let(:parsed_fully_timestamped_log) { ParsedLog.new(fully_timestamped_log, prefix) }
 
-      let(:hash_with_one_line_per_timestamp) { { t1 => [t1_parsed_line], t2 => [t2_parsed_line] } }
-      let(:hash_with_more_than_one_line_per_timestamp) { { t1 => [t1_parsed_line, no_t_line], t2 => [t2_parsed_line] } }
+      let(:hash_with_one_line_per_timestamp) { { k1 => [t1_parsed_line], k2 => [t2_parsed_line] } }
+      let(:hash_with_more_than_one_line_per_timestamp) { { k1 => [t1_parsed_line, no_t_line], k2 => [t2_parsed_line] } }
 
       describe ".initialize" do
         it "stores the prefix" do

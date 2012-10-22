@@ -28,16 +28,16 @@ module LogWeaver
       log.string.split("\n").each do |l|
         t = extract_time_stamp(l)
         if t
-          res[t] = [l]
+          res[prefix+t.to_s] = [l]
           previous_t = t
         else
           raise ArgumentError, "Log does not begin with a timestamp." if previous_t.nil?
-          res[previous_t] << l
+          res[prefix+previous_t.to_s] << l
         end
       end
 
       # prepend the prefix to every line with a time stamp
-      res.each_key{ |t| res[t][0] = prefix + res[t][0] }
+      res.each_key{ |k| res[k][0] = prefix + res[k][0] }
 
     end
 
