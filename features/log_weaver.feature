@@ -160,6 +160,31 @@ Feature: run command line app; weave log files by timestamp
     file2: 2012-01-01 00:00:00.003 - line3
     """
 
+    @wip
+  Scenario: 2 files, timestamp repeats within file and across files
+    Given a file named "file1" with:
+    """
+    2012-01-01 00:00:00.001 - line1
+    2012-01-01 00:00:00.001 - line1b
+    """
+    And a file named "file2" with:
+    """
+    2012-01-01 00:00:00.001 - line1c
+    2012-01-01 00:00:00.001 - line1d
+    """
+    When I successfully run `log_weaver file1 file2`
+    Then the output should match:
+    #NOTE: pushing the file2 line to the bottom here (by sorting on prefix) while preserving the timestamp
+    # sort order seems to require quite a bit of rework of the data structure used to store and sort the lines;
+    # I think the sort order below actually works fine (because it makes all the interacting logs show up
+    # immediately
+    """
+    file1: 2012-01-01 00:00:00.001 - line1
+    file1: 2012-01-01 00:00:00.001 - line1b
+    file2: 2012-01-01 00:00:00.001 - line1c
+    file2: 2012-01-01 00:00:00.001 - line1d
+    """
+
   Scenario: 2 files where timestamps in file1 come after timestamps in file2
     Given a file named "file1" with:
     """
