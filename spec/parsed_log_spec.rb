@@ -11,32 +11,32 @@ module LogWeaver
       let(:t1) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
       let(:t2) { t1 + 1 }
 
-      let(:t1_line) { "#{t1} - line1" }
-      let(:t2_line) { "#{t2} - line2" }
+      let(:t1_l1) { "#{t1} - t1 l1" }
+      let(:t2_l1) { "#{t2} - t2 l1" }
       let(:no_t_line) { "no t" }
 
-      let(:t1_parsed_line) { "#{prefix}#{t1_line}" }
-      let(:t2_parsed_line) { "#{prefix}#{t2_line}" }
+      let(:t1_l1_parsed) { "#{prefix}#{t1_l1}" }
+      let(:t2_l1_parsed) { "#{prefix}#{t2_l1}" }
 
       let(:k1) { ParsedLogKey.new(prefix, t1, 1) }
-      let(:k1b) { ParsedLogKey.new(prefix, t1, 2) }
+      let(:k1_2) { ParsedLogKey.new(prefix, t1, 2) }
       let(:k2) { ParsedLogKey.new(prefix, t2, 1) }
-      let(:lines) { { k1 => [t1_line] } }
-      let(:lines2) { { k2 => [t2_line] } }
+      let(:lines) { { k1 => [t1_l1] } }
+      let(:lines2) { { k2 => [t2_l1] } }
 
       let(:empty_log) { StringIO.new }
-      let(:fully_timestamped_log) { StringIO.new([t1_line, t2_line].join("\n")) }
-      let(:log_with_missing_timestamps) { StringIO.new([t1_line, no_t_line, t2_line].join("\n")) }
-      let(:log_with_duplicate_timestamp) { StringIO.new([t1_line, t1_line].join("\n")) }
-      let(:log_that_starts_with_no_timestamp) { StringIO.new([no_t_line, t2_line].join("\n")) }
+      let(:fully_timestamped_log) { StringIO.new([t1_l1, t2_l1].join("\n")) }
+      let(:log_with_missing_timestamps) { StringIO.new([t1_l1, no_t_line, t2_l1].join("\n")) }
+      let(:log_with_duplicate_timestamp) { StringIO.new([t1_l1, t1_l1].join("\n")) }
+      let(:log_that_starts_with_no_timestamp) { StringIO.new([no_t_line, t2_l1].join("\n")) }
 
       let(:parsed_empty_log1) { ParsedLog.new(empty_log, prefix) }
       let(:parsed_empty_log2) { ParsedLog.new(empty_log, prefix) }
       let(:parsed_fully_timestamped_log) { ParsedLog.new(fully_timestamped_log, prefix) }
 
-      let(:hash_with_one_line_per_timestamp) { { k1 => [t1_parsed_line], k2 => [t2_parsed_line] } }
-      let(:hash_with_duplicate_timestamps) { { k1 => [t1_parsed_line], k1b => [t1_parsed_line] } }
-      let(:hash_with_more_than_one_line_per_timestamp) { { k1 => [t1_parsed_line, no_t_line], k2 => [t2_parsed_line] } }
+      let(:hash_with_one_line_per_timestamp) { { k1 => [t1_l1_parsed], k2 => [t2_l1_parsed] } }
+      let(:hash_with_duplicate_timestamps) { { k1 => [t1_l1_parsed], k1_2 => [t1_l1_parsed] } }
+      let(:hash_with_more_than_one_line_per_timestamp) { { k1 => [t1_l1_parsed, no_t_line], k2 => [t2_l1_parsed] } }
 
       describe ".initialize" do
         it "stores the prefix" do
@@ -98,11 +98,11 @@ module LogWeaver
         end
         it "returns a timestamp if the string begins with ISO-formatted time (including msecs)" do
           ParsedLog.extract_time_stamp("#{t1}").should == t1
-          ParsedLog.extract_time_stamp("#{t1_line}").should == t1
+          ParsedLog.extract_time_stamp("#{t1_l1}").should == t1
         end
         it "returns nil when a string has a time stamp, but not at the beginning" do
           ParsedLog.extract_time_stamp("hello #{t1}").should be_nil
-          ParsedLog.extract_time_stamp("hello #{t1_line}").should be_nil
+          ParsedLog.extract_time_stamp("hello #{t1_l1}").should be_nil
         end
       end
     end
