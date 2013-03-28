@@ -36,8 +36,10 @@ module LogWeaver
         @parsed_empty_log1       = ParsedLog.new(@empty_log, @p1)
         @parsed_empty_log2       = ParsedLog.new(@empty_log, @p1)
 
-        @parsed_log_p2_t1l1 = ParsedLog.new(@t1l1_log, @p2)
+        @parsed_log_p1_t1l1 = ParsedLog.new(@t1l1_log, @p1)
         @parsed_log_p1_t2l1 = ParsedLog.new(@t2l1_log, @p1)
+        @parsed_log_p2_t1l1 = ParsedLog.new(@t1l1_log, @p2)
+        @parsed_log_p2_t2l1 = ParsedLog.new(@t2l1_log, @p2)
 
         @parsed_log_p1_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log, @p1)
         @parsed_log_p2_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log2, @p2)
@@ -61,6 +63,11 @@ module LogWeaver
         @p2_t1_l2 = "#{@p2}#{@t1_l2}"
         @p2_t2_l1 = "#{@p2}#{@t2_l1}"
         @p2_t2_l2 = "#{@p2}#{@t2_l2}"
+
+        @hashed_p1_t1l1_plus_p2_t2l1 = {
+            @k_p1_t1_1 => [@p1_t1_l1],
+            @k_p2_t2_1 => [@p2_t2_l1]
+        }
 
         @hashed_p2_t1l1_plus_p1_t2l1 = {
           @k_p2_t1_1 => [@p2_t1_l1],
@@ -113,8 +120,8 @@ module LogWeaver
 
       describe "#+" do
         it "handles a simple concat" do
-          sum = @parsed_log_p1_t1l1 + @parsed_log_p1_t2l1
-          sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_t2l1
+          sum = @parsed_log_p1_t1l1 + @parsed_log_p2_t2l1
+          sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_plus_p2_t2l1
         end
         it "handles a more complicated concat" do
           sum = @parsed_log_p1_t1l1_t2l1 + @parsed_log_p1_t1l2_t2l2
