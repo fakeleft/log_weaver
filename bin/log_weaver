@@ -27,7 +27,7 @@ module Methadone
       end
 
       parsed_logs = files.map{ |f| ParsedLog.new(StringIO.new(File.open(f).read), file_prefixes[f]) }
-      overall_log = parsed_logs.reduce(:+)
+      overall_log = CombinedLog.new(parsed_logs)
       puts overall_log
     end
 
