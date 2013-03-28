@@ -184,7 +184,7 @@ Feature: run command line app; weave log files by timestamp
     file2: 2012-01-01 00:00:00.001 - line1c
     file2: 2012-01-01 00:00:00.001 - line1d
     """
-
+@wip
   Scenario: 2 files where timestamps in file1 come after timestamps in file2
     Given a file named "file1" with:
     """
