@@ -7,12 +7,15 @@ module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
       let(:prefix1) {"prefix1:"}
+      let(:prefix2) {"prefix2:"}
 
       let(:t1) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
       let(:t2) { t1 + 1 }
 
       let(:t1_l1) { "#{t1} - t1 l1" }
+      let(:t1_l2) { "#{t1} - t1 l2" }
       let(:t2_l1) { "#{t2} - t2 l1" }
+      let(:t2_l2) { "#{t2} - t2 l2" }
       let(:no_t_line) { "no t" }
 
       let(:t1_l1_parsed) { "#{prefix1}#{t1_l1}" }
@@ -26,6 +29,8 @@ module LogWeaver
 
       let(:empty_log) { StringIO.new }
       let(:fully_timestamped_log) { StringIO.new([t1_l1, t2_l1].join("\n")) }
+      let(:fully_timestamped_log_clone) { StringIO.new([t1_l1, t2_l1].join("\n")) }
+      let(:fully_timestamped_log2) { StringIO.new([t1_l2, t2_l2].join("\n")) }
       let(:log_with_missing_timestamps) { StringIO.new([t1_l1, no_t_line, t2_l1].join("\n")) }
       let(:log_with_duplicate_timestamp) { StringIO.new([t1_l1, t1_l1].join("\n")) }
       let(:log_that_starts_with_no_timestamp) { StringIO.new([no_t_line, t2_l1].join("\n")) }
@@ -33,6 +38,8 @@ module LogWeaver
       let(:parsed_empty_log1) { ParsedLog.new(empty_log, prefix1) }
       let(:parsed_empty_log2) { ParsedLog.new(empty_log, prefix1) }
       let(:parsed_fully_timestamped_log) { ParsedLog.new(fully_timestamped_log, prefix1) }
+      let(:parsed_fully_timestamped_log_clone) { ParsedLog.new(fully_timestamped_log_clone, prefix2) }
+      let(:parsed_fully_timestamped_log2) { ParsedLog.new(fully_timestamped_log2, prefix1) }
 
       let(:hash_with_one_line_per_timestamp) { { k1 => [t1_l1_parsed], k2 => [t2_l1_parsed] } }
       let(:hash_with_duplicate_timestamps) { { k1 => [t1_l1_parsed], k1_2 => [t1_l1_parsed] } }
@@ -66,6 +73,12 @@ module LogWeaver
           parsed_empty_log2.stub(:lines).and_return(lines)
           sum = parsed_empty_log1 + parsed_empty_log2
           sum.instance_variable_get(:@lines).to_a.should == (Hash[lines.merge(lines2).sort]).to_a
+        end
+        it "handles same timestamp across multiple files" do
+          parsed_fully_timestamped_log.stub(:lines).and_return(lines)
+          parsed_fully_timestamped_log_clone.stub(:lines).and_return(lines)
+          sum = parsed_fully_timestamped_log + parsed_fully_timestamped_log_clone
+          sum.instance_variable_get(:@lines).to_a.should == (Hash[lines.merge(lines).sort]).to_a
         end
       end
 
