@@ -35,13 +35,42 @@ module LogWeaver
         @parsed_log_p1_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log, @p1)
         @parsed_log_p2_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log2, @p2)
         @parsed_log_p1_t1l2_t2l2 = ParsedLog.new(@t1l2_t2l2_log, @p1)
+        @parsed_log_p2_t1l2_t2l2 = ParsedLog.new(@t1l2_t2l2_log, @p2)
 
         @k_p1_t1_1   = ParsedLogKey.new(@p1, @t1, 1)
         @k_p1_t1_2   = ParsedLogKey.new(@p1, @t1, 2)
         @k_p1_t2_1   = ParsedLogKey.new(@p1, @t2, 1)
+        @k_p2_t1_1   = ParsedLogKey.new(@p2, @t1, 1)
+        @k_p2_t2_1   = ParsedLogKey.new(@p2, @t2, 1)
 
         @lines  = { @k_p1_t1_1 => [@t1_l1] }
         @lines2 = { @k_p1_t2_1 => [@t2_l1] }
+
+        @p1_t1_l1 = "#{@p1}#{@t1_l1}"
+        @p1_t1_l2 = "#{@p1}#{@t1_l2}"
+        @p1_t2_l1 = "#{@p1}#{@t2_l1}"
+        @p1_t2_l2 = "#{@p1}#{@t2_l2}"
+        @p2_t1_l1 = "#{@p2}#{@t1_l1}"
+        @p2_t1_l2 = "#{@p2}#{@t1_l2}"
+        @p2_t2_l1 = "#{@p2}#{@t2_l1}"
+        @p2_t2_l2 = "#{@p2}#{@t2_l2}"
+
+        @hashed_p1_t1l1_t2l1 = {
+          @k_p1_t1_1 => [@t1_l1],
+          @k_p1_t2_1 => [@t2_l1]
+        }
+
+        @hashed_p2_t1l2_t2l2 = {
+          @k_p2_t1_1 => [@t1_l2],
+          @k_p2_t2_1 => [@t2_l2]
+        }
+
+        @hashed_p1_t1l1_t2l1_plus_p2_t2l1_t2L2 = {
+          @k_p1_t1_1 => [@p1_t1_l1],
+          @k_p2_t1_1 => [@p2_t1_l2],
+          @k_p1_t2_1 => [@p1_t2_l1],
+          @k_p2_t2_1 => [@p2_t2_l2]
+        }
 
         @hash_with_one_line_per_timestamp = {
           @k_p1_t1_1   => [@t1_l1_parsed],
@@ -77,10 +106,8 @@ module LogWeaver
 
       describe "#+" do
         it "concatenates line hashes" do
-          @parsed_empty_log1.stub(:lines).and_return(@lines)
-          @parsed_empty_log2.stub(:lines).and_return(@lines2)
-          sum = @parsed_empty_log1 + @parsed_empty_log2
-          sum.instance_variable_get(:@lines).to_a.should == (Hash[@lines.merge(@lines2).sort]).to_a
+          sum = @parsed_log_p1_t1l1_t2l1 + @parsed_log_p2_t1l2_t2l2
+          sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_t2l1_plus_p2_t2l1_t2L2
         end
         it "concatenates and sorts line hashes" do
           @parsed_empty_log1.stub(:lines).and_return(@lines2)
