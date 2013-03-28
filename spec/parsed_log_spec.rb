@@ -22,6 +22,9 @@ module LogWeaver
         @t1_l1_parsed = "#{@p1}#{@t1_l1}"
         @t2_l1_parsed = "#{@p1}#{@t2_l1}"
 
+        @t1l1_log = StringIO.new(@t1_l1)
+        @t2l1_log = StringIO.new(@t2_l1)
+
         @empty_log                          = StringIO.new
         @t1l1_t2l1_log                      = StringIO.new([@t1_l1, @t2_l1].join("\n"))
         @t1l1_t2l1_log2                     = StringIO.new([@t1_l1, @t2_l1].join("\n"))
@@ -32,6 +35,10 @@ module LogWeaver
 
         @parsed_empty_log1       = ParsedLog.new(@empty_log, @p1)
         @parsed_empty_log2       = ParsedLog.new(@empty_log, @p1)
+
+        @parsed_log_p2_t1l1 = ParsedLog.new(@t1l1_log, @p2)
+        @parsed_log_p1_t2l1 = ParsedLog.new(@t2l1_log, @p1)
+
         @parsed_log_p1_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log, @p1)
         @parsed_log_p2_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log2, @p2)
         @parsed_log_p1_t1l2_t2l2 = ParsedLog.new(@t1l2_t2l2_log, @p1)
@@ -55,9 +62,9 @@ module LogWeaver
         @p2_t2_l1 = "#{@p2}#{@t2_l1}"
         @p2_t2_l2 = "#{@p2}#{@t2_l2}"
 
-        @hashed_p1_t1l1_t2l1 = {
-          @k_p1_t1_1 => [@t1_l1],
-          @k_p1_t2_1 => [@t2_l1]
+        @hashed_p2_t1l1_plus_p1_t2l1 = {
+          @k_p2_t1_1 => [@p2_t1_l1],
+          @k_p1_t2_1 => [@p1_t2_l1]
         }
 
         @hashed_p2_t1l2_t2l2 = {
@@ -109,11 +116,9 @@ module LogWeaver
           sum = @parsed_log_p1_t1l1_t2l1 + @parsed_log_p2_t1l2_t2l2
           sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_t2l1_plus_p2_t2l1_t2L2
         end
-        it "concatenates and sorts line hashes" do
-          @parsed_empty_log1.stub(:lines).and_return(@lines2)
-          @parsed_empty_log2.stub(:lines).and_return(@lines)
-          sum = @parsed_empty_log1 + @parsed_empty_log2
-          sum.instance_variable_get(:@lines).to_a.should == (Hash[@lines.merge(@lines2).sort]).to_a
+        it "handles a simple sort" do
+          sum = @parsed_log_p1_t2l1 + @parsed_log_p2_t1l1
+          sum.instance_variable_get(:@lines).should == @hashed_p2_t1l1_plus_p1_t2l1
         end
         it "handles same timestamp across multiple files" do
           @parsed_log_p1_t1l1_t2l1.stub(:lines).and_return(@lines)
