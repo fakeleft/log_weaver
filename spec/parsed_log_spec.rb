@@ -7,8 +7,8 @@ module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
       before(:all) do
-        @prefix1 = "prefix1:"
-        @prefix2 = "prefix2:"
+        @p1 = "prefix1:"
+        @p2 = "prefix2:"
 
         @t1 = Time.parse(Time.now.to_s)  # NOTE: init time this way to discard values below msec
         @t2 = @t1 + 1
@@ -19,51 +19,52 @@ module LogWeaver
         @t2_l2 = "#{@t2} - t2 l2"
         @no_t_line = "no t"
 
-        @t1_l1_parsed = "#{@prefix1}#{@t1_l1}"
-        @t2_l1_parsed = "#{@prefix1}#{@t2_l1}"
-
-        @k1   = ParsedLogKey.new(@prefix1, @t1, 1)
-        @k1_2 = ParsedLogKey.new(@prefix1, @t1, 2)
-        @k2   = ParsedLogKey.new(@prefix1, @t2, 1)
-        @lines  = { @k1 => [@t1_l1] }
-        @lines2 = { @k2 => [@t2_l1] }
+        @t1_l1_parsed = "#{@p1}#{@t1_l1}"
+        @t2_l1_parsed = "#{@p1}#{@t2_l1}"
 
         @empty_log                          = StringIO.new
-        @fully_timestamped_log              = StringIO.new([@t1_l1, @t2_l1].join("\n"))
-        @fully_timestamped_log_clone        = StringIO.new([@t1_l1, @t2_l1].join("\n"))
-        @fully_timestamped_log2             = StringIO.new([@t1_l2, @t2_l2].join("\n"))
+        @t1l1_t2l1_log                      = StringIO.new([@t1_l1, @t2_l1].join("\n"))
+        @t1l1_t2l1_log2                     = StringIO.new([@t1_l1, @t2_l1].join("\n"))
+        @t1l2_t2l2_log                      = StringIO.new([@t1_l2, @t2_l2].join("\n"))
         @log_with_missing_timestamps        = StringIO.new([@t1_l1, @no_t_line, @t2_l1].join("\n"))
         @log_with_duplicate_timestamp       = StringIO.new([@t1_l1, @t1_l1].join("\n"))
         @log_that_starts_with_no_timestamp  = StringIO.new([@no_t_line, @t2_l1].join("\n"))
 
-        @parsed_empty_log1                  = ParsedLog.new(@empty_log, @prefix1)
-        @parsed_empty_log2                  = ParsedLog.new(@empty_log, @prefix1)
-        @parsed_fully_timestamped_log       = ParsedLog.new(@fully_timestamped_log, @prefix1)
-        @parsed_fully_timestamped_log_clone = ParsedLog.new(@fully_timestamped_log_clone, @prefix2)
-        @parsed_fully_timestamped_log2      = ParsedLog.new(@fully_timestamped_log2, @prefix1)
+        @parsed_empty_log1       = ParsedLog.new(@empty_log, @p1)
+        @parsed_empty_log2       = ParsedLog.new(@empty_log, @p1)
+        @parsed_log_p1_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log, @p1)
+        @parsed_log_p2_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log2, @p2)
+        @parsed_log_p1_t1l2_t2l2 = ParsedLog.new(@t1l2_t2l2_log, @p1)
+
+        @k_p1_t1_1   = ParsedLogKey.new(@p1, @t1, 1)
+        @k_p1_t1_2   = ParsedLogKey.new(@p1, @t1, 2)
+        @k_p1_t2_1   = ParsedLogKey.new(@p1, @t2, 1)
+
+        @lines  = { @k_p1_t1_1 => [@t1_l1] }
+        @lines2 = { @k_p1_t2_1 => [@t2_l1] }
 
         @hash_with_one_line_per_timestamp = {
-          @k1   => [@t1_l1_parsed],
-          @k2   => [@t2_l1_parsed]
+          @k_p1_t1_1   => [@t1_l1_parsed],
+          @k_p1_t2_1   => [@t2_l1_parsed]
         }
 
         @hash_with_duplicate_timestamps = {
-          @k1   => [@t1_l1_parsed],
-          @k1_2 => [@t1_l1_parsed]
+          @k_p1_t1_1   => [@t1_l1_parsed],
+          @k_p1_t1_2 => [@t1_l1_parsed]
         }
 
         @hash_with_more_than_one_line_per_timestamp = {
-          @k1  => [@t1_l1_parsed, @no_t_line],
-          @k2  => [@t2_l1_parsed]
+          @k_p1_t1_1  => [@t1_l1_parsed, @no_t_line],
+          @k_p1_t2_1  => [@t2_l1_parsed]
         }
       end
 
       describe ".initialize" do
         it "stores the prefix" do
-          @parsed_empty_log1.instance_variable_get(:@prefix).should == @prefix1
+          @parsed_empty_log1.instance_variable_get(:@prefix).should == @p1
         end
         it "parses the given log file by timestamp" do
-          @parsed_fully_timestamped_log.instance_variable_get(:@lines).should == @hash_with_one_line_per_timestamp
+          @parsed_log_p1_t1l1_t2l1.instance_variable_get(:@lines).should == @hash_with_one_line_per_timestamp
         end
       end
 
@@ -88,32 +89,32 @@ module LogWeaver
           sum.instance_variable_get(:@lines).to_a.should == (Hash[@lines.merge(@lines2).sort]).to_a
         end
         it "handles same timestamp across multiple files" do
-          @parsed_fully_timestamped_log.stub(:lines).and_return(@lines)
-          @parsed_fully_timestamped_log_clone.stub(:lines).and_return(@lines)
-          sum = @parsed_fully_timestamped_log + @parsed_fully_timestamped_log_clone
+          @parsed_log_p1_t1l1_t2l1.stub(:lines).and_return(@lines)
+          @parsed_log_p2_t1l1_t2l1.stub(:lines).and_return(@lines)
+          sum = @parsed_log_p1_t1l1_t2l1 + @parsed_log_p2_t1l1_t2l1
           sum.instance_variable_get(:@lines).to_a.should == (Hash[@lines.merge(@lines).sort]).to_a
         end
       end
 
       describe ".parse_log" do
         it "prepends the prefix to every line with a timestamp" do
-          ParsedLog.parse_log(@fully_timestamped_log, @prefix1).should == @hash_with_one_line_per_timestamp
+          ParsedLog.parse_log(@t1l1_t2l1_log, @p1).should == @hash_with_one_line_per_timestamp
         end
         it "does not prepend the prefix to lines with no time stamp" do
-          ParsedLog.parse_log(@log_with_missing_timestamps, @prefix1).should == @hash_with_more_than_one_line_per_timestamp
+          ParsedLog.parse_log(@log_with_missing_timestamps, @p1).should == @hash_with_more_than_one_line_per_timestamp
         end
         it "parses lines with different time stamps" do
-          ParsedLog.parse_log(@fully_timestamped_log, @prefix1).should == @hash_with_one_line_per_timestamp
+          ParsedLog.parse_log(@t1l1_t2l1_log, @p1).should == @hash_with_one_line_per_timestamp
         end
         it "handles lines with the same time stamp" do
-          ParsedLog.parse_log(@log_with_duplicate_timestamp, @prefix1).should == @hash_with_duplicate_timestamps
+          ParsedLog.parse_log(@log_with_duplicate_timestamp, @p1).should == @hash_with_duplicate_timestamps
         end
         it "parses a log where the first line has no timestamp" do
           # TODO: subtract a ms from first time stamp?
           expect { ParsedLog.parse_log(@log_that_starts_with_no_timestamp) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
         end
         it "associates lines with no timestamp with preceding timestamp " do
-          ParsedLog.parse_log(@log_with_missing_timestamps, @prefix1).should == @hash_with_more_than_one_line_per_timestamp
+          ParsedLog.parse_log(@log_with_missing_timestamps, @p1).should == @hash_with_more_than_one_line_per_timestamp
         end
       end
 
