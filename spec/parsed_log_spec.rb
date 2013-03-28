@@ -112,9 +112,13 @@ module LogWeaver
       end
 
       describe "#+" do
-        it "concatenates line hashes" do
-          sum = @parsed_log_p1_t1l1_t2l1 + @parsed_log_p2_t1l2_t2l2
-          sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_t2l1_plus_p2_t2l1_t2L2
+        it "handles a simple concat" do
+          sum = @parsed_log_p1_t1l1 + @parsed_log_p1_t2l1
+          sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_t2l1
+        end
+        it "handles a more complicated concat" do
+          sum = @parsed_log_p1_t1l1_t2l1 + @parsed_log_p1_t1l2_t2l2
+          sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_t1l2_plus_p1_t2l1_t2l2
         end
         it "handles a simple sort" do
           sum = @parsed_log_p1_t2l1 + @parsed_log_p2_t1l1
