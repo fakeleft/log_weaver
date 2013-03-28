@@ -1,10 +1,10 @@
 require 'rspec'
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-include LogWeaver::CLI
+include LogWeaver::PrefixGenerator
 
 module LogWeaver
-  module CLI
+  module PrefixGenerator
 
     describe "#get_file_prefixes" do
       context "file names don't share a prefix" do

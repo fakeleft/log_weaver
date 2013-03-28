@@ -8,7 +8,7 @@ require 'methadone'
 $LOAD_PATH << File.expand_path('../../lib' , __FILE__)
 require 'log_weaver'
 
-include LogWeaver::CLI
+include LogWeaver::PrefixGenerator
 
 
 module Methadone

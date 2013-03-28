@@ -10,7 +10,7 @@ class Array
 end
 
 module LogWeaver
-  module CLI
+  module PrefixGenerator
 
     # given an array of file paths, generate file name prefixes given the following rules:
     # 1. prefixes have to differ
