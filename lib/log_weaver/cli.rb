@@ -2,6 +2,7 @@ require 'methadone'
 
 include Methadone::Main
 
+#TODO: move this to monkeypatch file
 class Array
   def uniq?
    self.length == self.uniq.length
