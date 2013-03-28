@@ -22,29 +22,40 @@ module LogWeaver
         @t1_l1_parsed = "#{@prefix1}#{@t1_l1}"
         @t2_l1_parsed = "#{@prefix1}#{@t2_l1}"
 
-        @k1 = ParsedLogKey.new(@prefix1, @t1, 1)
+        @k1   = ParsedLogKey.new(@prefix1, @t1, 1)
         @k1_2 = ParsedLogKey.new(@prefix1, @t1, 2)
-        @k2 = ParsedLogKey.new(@prefix1, @t2, 1)
-        @lines = { @k1 => [@t1_l1] }
+        @k2   = ParsedLogKey.new(@prefix1, @t2, 1)
+        @lines  = { @k1 => [@t1_l1] }
         @lines2 = { @k2 => [@t2_l1] }
 
-        @empty_log = StringIO.new
-        @fully_timestamped_log = StringIO.new([@t1_l1, @t2_l1].join("\n"))
-        @fully_timestamped_log_clone = StringIO.new([@t1_l1, @t2_l1].join("\n"))
-        @fully_timestamped_log2 = StringIO.new([@t1_l2, @t2_l2].join("\n"))
-        @log_with_missing_timestamps = StringIO.new([@t1_l1, @no_t_line, @t2_l1].join("\n"))
-        @log_with_duplicate_timestamp = StringIO.new([@t1_l1, @t1_l1].join("\n"))
-        @log_that_starts_with_no_timestamp = StringIO.new([@no_t_line, @t2_l1].join("\n"))
+        @empty_log                          = StringIO.new
+        @fully_timestamped_log              = StringIO.new([@t1_l1, @t2_l1].join("\n"))
+        @fully_timestamped_log_clone        = StringIO.new([@t1_l1, @t2_l1].join("\n"))
+        @fully_timestamped_log2             = StringIO.new([@t1_l2, @t2_l2].join("\n"))
+        @log_with_missing_timestamps        = StringIO.new([@t1_l1, @no_t_line, @t2_l1].join("\n"))
+        @log_with_duplicate_timestamp       = StringIO.new([@t1_l1, @t1_l1].join("\n"))
+        @log_that_starts_with_no_timestamp  = StringIO.new([@no_t_line, @t2_l1].join("\n"))
 
-        @parsed_empty_log1 = ParsedLog.new(@empty_log, @prefix1)
-        @parsed_empty_log2 = ParsedLog.new(@empty_log, @prefix1)
-        @parsed_fully_timestamped_log = ParsedLog.new(@fully_timestamped_log, @prefix1)
+        @parsed_empty_log1                  = ParsedLog.new(@empty_log, @prefix1)
+        @parsed_empty_log2                  = ParsedLog.new(@empty_log, @prefix1)
+        @parsed_fully_timestamped_log       = ParsedLog.new(@fully_timestamped_log, @prefix1)
         @parsed_fully_timestamped_log_clone = ParsedLog.new(@fully_timestamped_log_clone, @prefix2)
-        @parsed_fully_timestamped_log2 = ParsedLog.new(@fully_timestamped_log2, @prefix1)
+        @parsed_fully_timestamped_log2      = ParsedLog.new(@fully_timestamped_log2, @prefix1)
 
-        @hash_with_one_line_per_timestamp = { @k1 => [@t1_l1_parsed], @k2 => [@t2_l1_parsed] }
-        @hash_with_duplicate_timestamps = { @k1 => [@t1_l1_parsed], @k1_2 => [@t1_l1_parsed] }
-        @hash_with_more_than_one_line_per_timestamp = { @k1 => [@t1_l1_parsed, @no_t_line], @k2 => [@t2_l1_parsed] }
+        @hash_with_one_line_per_timestamp = {
+          @k1   => [@t1_l1_parsed],
+          @k2   => [@t2_l1_parsed]
+        }
+
+        @hash_with_duplicate_timestamps = {
+          @k1   => [@t1_l1_parsed],
+          @k1_2 => [@t1_l1_parsed]
+        }
+
+        @hash_with_more_than_one_line_per_timestamp = {
+          @k1  => [@t1_l1_parsed, @no_t_line],
+          @k2  => [@t2_l1_parsed]
+        }
       end
 
       describe ".initialize" do
