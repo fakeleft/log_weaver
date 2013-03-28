@@ -6,7 +6,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
-      let(:prefix) {"prefix:"}
+      let(:prefix1) {"prefix1:"}
 
       let(:t1) { Time.parse(Time.now.to_s) } # NOTE: init time this way to discard values below msec
       let(:t2) { t1 + 1 }
@@ -15,12 +15,12 @@ module LogWeaver
       let(:t2_l1) { "#{t2} - t2 l1" }
       let(:no_t_line) { "no t" }
 
-      let(:t1_l1_parsed) { "#{prefix}#{t1_l1}" }
-      let(:t2_l1_parsed) { "#{prefix}#{t2_l1}" }
+      let(:t1_l1_parsed) { "#{prefix1}#{t1_l1}" }
+      let(:t2_l1_parsed) { "#{prefix1}#{t2_l1}" }
 
-      let(:k1) { ParsedLogKey.new(prefix, t1, 1) }
-      let(:k1_2) { ParsedLogKey.new(prefix, t1, 2) }
-      let(:k2) { ParsedLogKey.new(prefix, t2, 1) }
+      let(:k1) { ParsedLogKey.new(prefix1, t1, 1) }
+      let(:k1_2) { ParsedLogKey.new(prefix1, t1, 2) }
+      let(:k2) { ParsedLogKey.new(prefix1, t2, 1) }
       let(:lines) { { k1 => [t1_l1] } }
       let(:lines2) { { k2 => [t2_l1] } }
 
@@ -30,9 +30,9 @@ module LogWeaver
       let(:log_with_duplicate_timestamp) { StringIO.new([t1_l1, t1_l1].join("\n")) }
       let(:log_that_starts_with_no_timestamp) { StringIO.new([no_t_line, t2_l1].join("\n")) }
 
-      let(:parsed_empty_log1) { ParsedLog.new(empty_log, prefix) }
-      let(:parsed_empty_log2) { ParsedLog.new(empty_log, prefix) }
-      let(:parsed_fully_timestamped_log) { ParsedLog.new(fully_timestamped_log, prefix) }
+      let(:parsed_empty_log1) { ParsedLog.new(empty_log, prefix1) }
+      let(:parsed_empty_log2) { ParsedLog.new(empty_log, prefix1) }
+      let(:parsed_fully_timestamped_log) { ParsedLog.new(fully_timestamped_log, prefix1) }
 
       let(:hash_with_one_line_per_timestamp) { { k1 => [t1_l1_parsed], k2 => [t2_l1_parsed] } }
       let(:hash_with_duplicate_timestamps) { { k1 => [t1_l1_parsed], k1_2 => [t1_l1_parsed] } }
@@ -40,7 +40,7 @@ module LogWeaver
 
       describe ".initialize" do
         it "stores the prefix" do
-          parsed_empty_log1.instance_variable_get(:@prefix).should == prefix
+          parsed_empty_log1.instance_variable_get(:@prefix).should == prefix1
         end
         it "parses the given log file by timestamp" do
           parsed_fully_timestamped_log.instance_variable_get(:@lines).should == hash_with_one_line_per_timestamp
@@ -71,23 +71,23 @@ module LogWeaver
 
       describe ".parse_log" do
         it "prepends the prefix to every line with a timestamp" do
-          ParsedLog.parse_log(fully_timestamped_log, prefix).should == hash_with_one_line_per_timestamp
+          ParsedLog.parse_log(fully_timestamped_log, prefix1).should == hash_with_one_line_per_timestamp
         end
         it "does not prepend the prefix to lines with no time stamp" do
-          ParsedLog.parse_log(log_with_missing_timestamps, prefix).should == hash_with_more_than_one_line_per_timestamp
+          ParsedLog.parse_log(log_with_missing_timestamps, prefix1).should == hash_with_more_than_one_line_per_timestamp
         end
         it "parses lines with different time stamps" do
-          ParsedLog.parse_log(fully_timestamped_log, prefix).should == hash_with_one_line_per_timestamp
+          ParsedLog.parse_log(fully_timestamped_log, prefix1).should == hash_with_one_line_per_timestamp
         end
         it "handles lines with the same time stamp" do
-          ParsedLog.parse_log(log_with_duplicate_timestamp, prefix).should == hash_with_duplicate_timestamps
+          ParsedLog.parse_log(log_with_duplicate_timestamp, prefix1).should == hash_with_duplicate_timestamps
         end
         it "parses a log where the first line has no timestamp" do
           # TODO: subtract a ms from first time stamp?
           expect { ParsedLog.parse_log(log_that_starts_with_no_timestamp) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
         end
         it "associates lines with no timestamp with preceding timestamp " do
-          ParsedLog.parse_log(log_with_missing_timestamps, prefix).should == hash_with_more_than_one_line_per_timestamp
+          ParsedLog.parse_log(log_with_missing_timestamps, prefix1).should == hash_with_more_than_one_line_per_timestamp
         end
       end
 
