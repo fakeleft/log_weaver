@@ -7,7 +7,7 @@ module LogWeaver
         @p1 = "prefix1:"
         @p2 = "prefix2:"
 
-        @t1 = Time.parse(Time.now.to_s)  # NOTE: init time this way to discard values below msec
+        @t1 = Time.parse("2000-01-01 00:00:01.000")
         @t2 = @t1 + 1
 
         @t1l1 = "#{@t1} - t1 l1"
