@@ -17,8 +17,8 @@ module LogWeaver
 
         @no_t_line = "no t"
 
-        @t1l1_parsed = "#{@p1}#{@t1l1}"
-        @t2l1_parsed = "#{@p1}#{@t2l1}"
+        @p1_t1l1_parsed = "#{@p1}#{@t1l1}"
+        @p2_t2l1_parsed = "#{@p2}#{@t2l1}"
 
         @t1l1_log = StringIO.new(@t1l1)
         @t2l1_log = StringIO.new(@t2l1)
