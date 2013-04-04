@@ -1,10 +1,4 @@
-require "log_weaver/version"
-require "log_weaver/prefix_generator"
-require "log_weaver/combined_log"
-require "log_weaver/parsed_log"
-require "log_weaver/parsed_log_key"
-require "log_weaver/monkey_patch"
+require 'require_all'
 
-module LogWeaver
-  # Your code goes here...
-end
+require_all 'lib/log_weaver'
+

@@ -3,6 +3,7 @@ PATH
   specs:
     log_weaver (0.0.1)
       methadone (~> 1.2.1)
+      require_all (~> 1.2)
 
 GEM
   remote: https://rubygems.org/
@@ -30,6 +31,7 @@ GEM
     rake (0.9.6)
     rdoc (4.0.1)
       json (~> 1.4)
+    require_all (1.2.1)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
