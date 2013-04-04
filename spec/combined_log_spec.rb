@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'unindent'
 
 module LogWeaver
   class CombinedLog
@@ -40,6 +41,16 @@ module LogWeaver
         end
       end
 
+      describe "#to_s" do
+        it "prints 2 simplest logs" do
+          output = <<-eos
+            #{@p1_t1l1_parsed}
+            #{@p2_t2l1_parsed}
+          eos
+
+          @cl.to_s.should ==  output.unindent
+        end
+      end
     end
   end
 end
