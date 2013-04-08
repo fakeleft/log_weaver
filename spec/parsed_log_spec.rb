@@ -140,6 +140,9 @@ module LogWeaver
       end
 
       describe ".parse_log" do
+        it "parses single line with time stamp" do
+          ParsedLog.parse_log($io_t1_l1).should == $hash_t1_l1
+        end
         it "parses lines with different time stamps" do
           ParsedLog.parse_log(@t1l1_t2l1_log, @p1).should == @hash_with_one_line_per_timestamp
         end

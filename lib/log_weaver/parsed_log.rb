@@ -22,28 +22,22 @@ module LogWeaver
 
     #private TODO: see http://stackoverflow.com/questions/4952980/creating-private-class-method; test per
     # http://kailuowang.blogspot.ca/2010/08/testing-private-methods-in-rspec.html
-    def self.parse_log(log, prefix = "")
+    def self.parse_log(log)
       res = {}
       previous_key = nil
-      log.string.split("\n").each do |l|
-        (t, l) = extract_time_stamp(l)
-        if t
-          key = ParsedLogKey.new(prefix, t, 1)
-          unless previous_key.nil?
-            key = ParsedLogKey.new(prefix, t, previous_key.count + 1) if t == previous_key.timestamp
-          end
+      log.string.split("\n").each do |line|
+        (timestamp, message) = extract_time_stamp(line)
+        if timestamp
+          key = timestamp
           res[key] = []
           previous_key = key
         else
           raise ArgumentError, "Log does not begin with a timestamp." if previous_key.nil?
         end
 
-        res[previous_key] << l
+        res[previous_key] << message
       end
-
-      # prepend the prefix to every line with a time stamp
-      res.each_key{ |k| res[k][0] = prefix + res[k][0] }
-
+      res
     end
 
     def self.extract_time_stamp(line)
