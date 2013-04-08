@@ -147,7 +147,7 @@ module LogWeaver
           ParsedLog.parse_log($io_t1_l1_t2_l1).should == $hash_t1_l1_t2_l1
         end
         it "handles lines with the same time stamp" do
-          ParsedLog.parse_log(@log_with_duplicate_timestamp, @p1).should == @hash_with_duplicate_timestamps
+          ParsedLog.parse_log($io_t1_l1_t1_l2).should == $hash_t1_l1_t1_l2
         end
         it "parses a log where the first line has no timestamp" do
           # TODO: subtract a ms from first time stamp?

@@ -23,5 +23,16 @@ $no_t_line = "no t"
 $io_t1_l1 = StringIO.new($t1_l1)
 $io_t2_l1 = StringIO.new($t2_l1)
 $io_t1_l1_t2_l1                  = StringIO.new([$t1_l1, $t2_l1].join("\n"))
+$io_t1_l1_t1_l2                = StringIO.new([$t1_l1, $t1_l2].join("\n"))
 $hash_t1_l1 = { $t1 => [$l1] }
+
+$hash_t1_l1_t2_l1 = {
+                      $t1 => [$l1],
+                      $t2 => [$l1]
+                    }
+
+$hash_t1_l1_t1_l2 = {
+                      $t1 => [$l1, $l2]
+                    }
 $hash_t1_l1_t2_l1 = { $t1 => [$l1], $t2 => [$l1] }
+$hash_t1_l1_t1_l2 = { $t1 => [$l1, $l2] }

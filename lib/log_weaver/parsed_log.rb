@@ -29,7 +29,7 @@ module LogWeaver
         (timestamp, message) = extract_time_stamp(line)
         if timestamp
           key = timestamp
-          res[key] = []
+          res[key] = [] unless key == previous_key
           previous_key = key
         else
           raise ArgumentError, "Log does not begin with a timestamp." if previous_key.nil?
