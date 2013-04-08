@@ -169,13 +169,12 @@ module LogWeaver
         it "returns timestamp and a blank string when line contains only a timestamp" do
           ParsedLog.extract_time_stamp("#{$t.to_s}").should == [$t, ""]
         end
-        it "returns a timestamp if the string begins with ISO-formatted time (including msecs)" do
-          ParsedLog.extract_time_stamp("#{@t1}").should == @t1
-          ParsedLog.extract_time_stamp("#{@t1_l1}").should == @t1
+        it "returns a timestamp and message if the string begins with ISO-formatted time (including msecs)" do
+          ParsedLog.extract_time_stamp("#{$t1_l1}").should == [$t1, $l1]
         end
-        it "returns nil when a string has a time stamp, but not at the beginning" do
-          ParsedLog.extract_time_stamp("hello #{@t1}").should be_nil
-          ParsedLog.extract_time_stamp("hello #{@t1_l1}").should be_nil
+        it "returns nil and the line when a line has a time stamp, but not at the beginning" do
+          ParsedLog.extract_time_stamp("hello #{$t1}").should == [nil, "hello #{$t1}"]
+          ParsedLog.extract_time_stamp("hello #{$t1_l1}").should == [nil, "hello #{$t1_l1}"]
         end
       end
     end
