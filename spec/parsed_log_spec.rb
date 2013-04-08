@@ -140,12 +140,6 @@ module LogWeaver
       end
 
       describe ".parse_log" do
-        it "prepends the prefix to every line with a timestamp" do
-          ParsedLog.parse_log(@t1l1_t2l1_log, @p1).should == @hash_with_one_line_per_timestamp
-        end
-        it "does not prepend the prefix to lines with no time stamp" do
-          ParsedLog.parse_log(@log_with_missing_timestamps, @p1).should == @hash_with_more_than_one_line_per_timestamp
-        end
         it "parses lines with different time stamps" do
           ParsedLog.parse_log(@t1l1_t2l1_log, @p1).should == @hash_with_one_line_per_timestamp
         end

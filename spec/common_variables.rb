@@ -20,3 +20,4 @@ $t2_l1 = "#{$t2}#{$l1}"
 $t2_l2 = "#{$t2}#{$l2}"
 
 $no_t_line = "no t"
+$io_t1_l1_t2_l1                  = StringIO.new([$t1_l1, $t2_l1].join("\n"))
