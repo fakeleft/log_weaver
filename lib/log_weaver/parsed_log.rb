@@ -26,8 +26,7 @@ module LogWeaver
       res = {}
       previous_key = nil
       log.string.split("\n").each do |l|
-        t = extract_time_stamp(l)
-
+        (t, l) = extract_time_stamp(l)
         if t
           key = ParsedLogKey.new(prefix, t, 1)
           unless previous_key.nil?
@@ -48,7 +47,10 @@ module LogWeaver
     end
 
     def self.extract_time_stamp(line)
-      (line =~ /^[0-9]{4}-[01][0-9]-[0-3][0-9] [0-2][0-9](:[0-5][0-9]){2}\.[0-9]{3}/).nil? ? nil : Time.parse(line)
+      t = line[/^[0-9]{4}-[01][0-9]-[0-3][0-9] [0-2][0-9](:[0-5][0-9]){2}\.[0-9]{3}/,0]
+      l = line.sub(/^#{t}/,'')
+      t = Time.parse(t) unless t.nil?
+      [t,l]
     end
 
   end

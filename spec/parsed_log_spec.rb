@@ -162,9 +162,9 @@ module LogWeaver
       end
 
       describe ".extract_time_stamp" do
-        it "returns nil when string doesn't have a time stamp" do
-          ParsedLog.extract_time_stamp("").should be_nil
-          ParsedLog.extract_time_stamp("#{@no_t_line}").should be_nil
+        it "returns [nil, string] when string doesn't have a time stamp" do
+          ParsedLog.extract_time_stamp("").should == [nil, ""]
+          ParsedLog.extract_time_stamp("#{$no_t_line}").should == [nil, $no_t_line]
         end
         it "returns a timestamp if the string begins with ISO-formatted time (including msecs)" do
           ParsedLog.extract_time_stamp("#{@t1}").should == @t1
