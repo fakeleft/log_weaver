@@ -47,10 +47,10 @@ module LogWeaver
     end
 
     def self.extract_time_stamp(line)
-      t = line[/^[0-9]{4}-[01][0-9]-[0-3][0-9] [0-2][0-9](:[0-5][0-9]){2}\.[0-9]{3}/,0]
-      l = line.sub(/^#{t}/,'')
-      t = Time.parse(t) unless t.nil?
-      [t,l]
+      timestamp = line[/^[0-9]{4}-[01][0-9]-[0-3][0-9] [0-2][0-9](:[0-5][0-9]){2}\.[0-9]{3}/,0]
+      message = line.sub(/^#{timestamp}/,'')
+      timestamp = Time.parse(timestamp) unless timestamp.nil?
+      [timestamp,message]
     end
 
   end
