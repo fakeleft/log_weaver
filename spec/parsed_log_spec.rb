@@ -153,8 +153,8 @@ module LogWeaver
           # TODO: subtract a ms from first time stamp?
           expect { ParsedLog.parse_log(@log_that_starts_with_no_timestamp) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
         end
-        it "associates lines with no timestamp with preceding timestamp " do
-          ParsedLog.parse_log(@log_with_missing_timestamps, @p1).should == @hash_with_more_than_one_line_per_timestamp
+        it "associates lines with no timestamp with preceding timestamp" do
+          ParsedLog.parse_log($io_t1_l1_no_t_l2).should == $hash_io_t1_l1_no_t_l2
         end
       end
 
