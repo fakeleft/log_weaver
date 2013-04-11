@@ -24,16 +24,19 @@ module LogWeaver
       it "handles [p1_t2_l1, p2_t1_l1] (2 logs, p2 timestamp comes before p1)" do
         CombinedLog.build_index([$pl_p1_t2_l1, $pl_p2_t1_l1]).to_a.should == $hash_p1_t2_l1_and_p2_t1_l1.to_a
       end
+
+
     end
 
     describe "#to_s" do
-      it "prints 2 simplest logs" do
+      it "prints p1_t1_l1_and_p2_t2_l1" do
         output = <<-eos
-          #{@p1_t1l1_parsed}
-          #{@p2_t2l1_parsed}
+          #{$out_p1_t1_l1}
+          #{$out_p2_t2_l1}
         eos
+        CombinedLog.new([$pl_p1_t1_l1, $pl_p2_t2_l1]).to_s.should == output.unindent
+      end
 
-        @cl.to_s.should ==  output.unindent
       end
     end
     end

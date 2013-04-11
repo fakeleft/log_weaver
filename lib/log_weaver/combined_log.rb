@@ -5,6 +5,7 @@ module LogWeaver
 
     def initialize(logs)
       @logs = logs
+      @index = CombinedLog::build_index(@logs)
     end
 
     def self.build_index(logs)
@@ -16,16 +17,15 @@ module LogWeaver
           index[key] = l
         end
       end
-
+      #TODO: sorting at this point may have seriously bad performance for large logs; consider a
+      # data structure that stays sorted as you insert
       Hash[index.sort]
     end
 
     def to_s
       res = ""
-      #TODO: sorting at this point may have seriously bad performance for large logs; consider a
-      # data structure that stays sorted as you insert
-      @index.sort.each do |entry|
-        res << "#{entry.prefix}:#{entry.lines.join("\n")}"
+      @index.each do |key, lines|
+        res << "#{key.prefix}:#{key.timestamp}#{lines.join("\n")}\n"
       end
       res
     end

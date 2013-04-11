@@ -25,8 +25,8 @@ $t2_l2 = "#{$t2}#{$l2}"
 
 $no_t_l2 = $l2
 
-$t1_l1_parsed = "#{$p1}#{$t1_l1}"
-$t2_l1_parsed = "#{$p1}#{$t2_l1}"
+$out_p1_t1_l1 = "#{$p1}:#{$t1_l1}"
+$out_p2_t2_l1 = "#{$p2}:#{$t2_l1}"
 
 $io_empty                      = StringIO.new
 $io_t1_l1                      = StringIO.new($t1_l1)
