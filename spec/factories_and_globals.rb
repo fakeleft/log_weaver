@@ -76,6 +76,9 @@ FactoryGirl.define do
       factory :pl_p1_t1_l1 do
         lines $hash_t1_l1
       end
+      factory :pl_p1_t2_l1 do
+        lines $hash_t2_l1
+      end
     end
 
     factory :pl_p2 do
@@ -126,7 +129,13 @@ $hash_p1_t1_l1_and_p2_t1_l1 = {
     $k_p2_t1 => [$l1]
 }
 
+$hash_p1_t2_l1_and_p2_t1_l1 = {
+    $k_p2_t1 => [$l1],
+    $k_p1_t2 => [$l1]
+}
+
 $pl_p1_t1_l1 = FactoryGirl.build :pl_p1_t1_l1
+$pl_p1_t2_l1 = FactoryGirl.build :pl_p1_t2_l1
 $pl_p2_t1_l1 = FactoryGirl.build :pl_p2_t1_l1
 $pl_p2_t2_l1 = FactoryGirl.build :pl_p2_t2_l1
 

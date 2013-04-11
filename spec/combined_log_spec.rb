@@ -16,10 +16,13 @@ module LogWeaver
       # note: it's much briefer/easier/more readable to give symbolic descriptions
       # for the examples; pn is the prefix, tn is the timestamp, ln are the line contents
       it "handles [p1_t1_l1, p2_t2_l1] (2 logs, ordered timestamps, 1 line each)" do
-        CombinedLog.build_index([$pl_p1_t1_l1, $pl_p2_t2_l1]).should == $hash_p1_t1_l1_and_p2_t2_l1
+        CombinedLog.build_index([$pl_p1_t1_l1, $pl_p2_t2_l1]).to_a.should == $hash_p1_t1_l1_and_p2_t2_l1.to_a
       end
       it "handles [p1_t1_l1, p2_t1_l1] (2 logs, same timestamp, 1 line each)" do
-        CombinedLog.build_index([$pl_p1_t1_l1, $pl_p2_t1_l1]).should == $hash_p1_t1_l1_and_p2_t1_l1
+        CombinedLog.build_index([$pl_p1_t1_l1, $pl_p2_t1_l1]).to_a.should == $hash_p1_t1_l1_and_p2_t1_l1.to_a
+      end
+      it "handles [p1_t2_l1, p2_t1_l1] (2 logs, p2 timestamp comes before p1)" do
+        CombinedLog.build_index([$pl_p1_t2_l1, $pl_p2_t1_l1]).to_a.should == $hash_p1_t2_l1_and_p2_t1_l1.to_a
       end
     end
 

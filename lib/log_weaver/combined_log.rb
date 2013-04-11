@@ -17,7 +17,7 @@ module LogWeaver
         end
       end
 
-      index
+      Hash[index.sort]
     end
 
     def to_s
