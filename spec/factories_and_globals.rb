@@ -41,6 +41,8 @@ $io_with_duplicate_timestamp   = StringIO.new([$t1_l1, $t1_l1].join("\n"))
 $io_starting_with_no_timestamp = StringIO.new([$no_t_line, $t2_l1].join("\n"))
 
 $hash_t1_l1 = { $t1 => [$l1] }
+$hash_t2_l1 = { $t2 => [$l1] }
+
 
 $hash_t1_l1_t2_l1 = {
     $t1 => [$l1],

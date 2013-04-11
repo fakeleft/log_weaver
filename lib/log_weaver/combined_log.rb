@@ -7,6 +7,19 @@ module LogWeaver
       @logs = logs
     end
 
+    def self.build_index(logs)
+      # need to sort by timestamp, then prefix
+      index = {}
+      logs.each do |log|
+        log.lines.each do |t,l|
+          key = CombinedLogIndexKey.new(log.prefix, t)
+          index[key] = l
+        end
+      end
+
+      index
+    end
+
     def to_s
       res = ""
       #TODO: sorting at this point may have seriously bad performance for large logs; consider a
