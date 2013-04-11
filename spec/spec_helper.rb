@@ -1,8 +1,7 @@
 require 'factory_girl'
-require 'factories'
+require 'factories_and_globals'
 
 require 'log_weaver'
-require 'common_variables'
 
 
 RSpec.configure do |c|
