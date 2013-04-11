@@ -7,99 +7,6 @@ module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
       before(:all) do
-        @p1 = "prefix1:"
-        @p2 = "prefix2:"
-
-        @t1 = Time.parse(Time.now.to_s)  # NOTE: init time this way to discard values below msec
-        @t2 = @t1 + 1
-
-        @t1_l1 = "#{@t1} - t1 l1"
-        @t1_l2 = "#{@t1} - t1 l2"
-        @t2_l1 = "#{@t2} - t2 l1"
-        @t2_l2 = "#{@t2} - t2 l2"
-        @no_t_line = "no t"
-
-        @t1_l1_parsed = "#{@p1}#{@t1_l1}"
-        @t2_l1_parsed = "#{@p1}#{@t2_l1}"
-
-        @t1l1_log = StringIO.new(@t1_l1)
-        @t2l1_log = StringIO.new(@t2_l1)
-
-        @empty_log                          = StringIO.new
-        @t1l1_t2l1_log                      = StringIO.new([@t1_l1, @t2_l1].join("\n"))
-        @t1l1_t2l1_log2                     = StringIO.new([@t1_l1, @t2_l1].join("\n"))
-        @t1l2_t2l2_log                      = StringIO.new([@t1_l2, @t2_l2].join("\n"))
-        @log_with_missing_timestamps        = StringIO.new([@t1_l1, @no_t_line, @t2_l1].join("\n"))
-        @log_with_duplicate_timestamp       = StringIO.new([@t1_l1, @t1_l1].join("\n"))
-        @log_that_starts_with_no_timestamp  = StringIO.new([@no_t_line, @t2_l1].join("\n"))
-
-        @parsed_empty_log1       = ParsedLog.new(@empty_log, @p1)
-        @parsed_empty_log2       = ParsedLog.new(@empty_log, @p1)
-
-        @parsed_log_p1_t1l1 = ParsedLog.new(@t1l1_log, @p1)
-        @parsed_log_p1_t2l1 = ParsedLog.new(@t2l1_log, @p1)
-        @parsed_log_p2_t1l1 = ParsedLog.new(@t1l1_log, @p2)
-        @parsed_log_p2_t2l1 = ParsedLog.new(@t2l1_log, @p2)
-
-        @parsed_log_p1_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log, @p1)
-        @parsed_log_p2_t1l1_t2l1 = ParsedLog.new(@t1l1_t2l1_log2, @p2)
-        @parsed_log_p1_t1l2_t2l2 = ParsedLog.new(@t1l2_t2l2_log, @p1)
-        @parsed_log_p2_t1l2_t2l2 = ParsedLog.new(@t1l2_t2l2_log, @p2)
-
-        @k_p1_t1_1   = ParsedLogKey.new(@p1, @t1, 1)
-        @k_p1_t1_2   = ParsedLogKey.new(@p1, @t1, 2)
-        @k_p1_t2_1   = ParsedLogKey.new(@p1, @t2, 1)
-        @k_p2_t1_1   = ParsedLogKey.new(@p2, @t1, 1)
-        @k_p2_t2_1   = ParsedLogKey.new(@p2, @t2, 1)
-
-        @lines  = { @k_p1_t1_1 => [@t1_l1] }
-        @lines2 = { @k_p1_t2_1 => [@t2_l1] }
-
-        @p1_t1_l1 = "#{@p1}#{@t1_l1}"
-        @p1_t1_l2 = "#{@p1}#{@t1_l2}"
-        @p1_t2_l1 = "#{@p1}#{@t2_l1}"
-        @p1_t2_l2 = "#{@p1}#{@t2_l2}"
-        @p2_t1_l1 = "#{@p2}#{@t1_l1}"
-        @p2_t1_l2 = "#{@p2}#{@t1_l2}"
-        @p2_t2_l1 = "#{@p2}#{@t2_l1}"
-        @p2_t2_l2 = "#{@p2}#{@t2_l2}"
-
-        @hashed_p1_t1l1_plus_p2_t2l1 = {
-            @k_p1_t1_1 => [@p1_t1_l1],
-            @k_p2_t2_1 => [@p2_t2_l1]
-        }
-
-        @hashed_p2_t1l1_plus_p1_t2l1 = {
-          @k_p2_t1_1 => [@p2_t1_l1],
-          @k_p1_t2_1 => [@p1_t2_l1]
-        }
-
-        @hashed_p2_t1l2_t2l2 = {
-          @k_p2_t1_1 => [@t1_l2],
-          @k_p2_t2_1 => [@t2_l2]
-        }
-
-        @hashed_p1_t1l1_t2l1_plus_p2_t2l1_t2L2 = {
-          @k_p1_t1_1 => [@p1_t1_l1],
-          @k_p2_t1_1 => [@p2_t1_l2],
-          @k_p1_t2_1 => [@p1_t2_l1],
-          @k_p2_t2_1 => [@p2_t2_l2]
-        }
-
-        @hash_with_one_line_per_timestamp = {
-          @k_p1_t1_1   => [@t1_l1_parsed],
-          @k_p1_t2_1   => [@t2_l1_parsed]
-        }
-
-        @hash_with_duplicate_timestamps = {
-          @k_p1_t1_1   => [@t1_l1_parsed],
-          @k_p1_t1_2 => [@t1_l1_parsed]
-        }
-
-        @hash_with_more_than_one_line_per_timestamp = {
-          @k_p1_t1_1  => [@t1_l1_parsed, @no_t_line],
-          @k_p1_t2_1  => [@t2_l1_parsed]
-        }
       end
 
       describe ".initialize" do
@@ -111,6 +18,7 @@ module LogWeaver
         end
       end
 
+      # TODO: not sure to_s is needed here
       describe "#to_s" do
         it "prints the log to a string" do
           @parsed_empty_log1.stub(:lines).and_return(@lines)
@@ -118,26 +26,6 @@ module LogWeaver
         end
       end
 
-      describe "#+" do
-        it "handles a simple concat" do
-          sum = @parsed_log_p1_t1l1 + @parsed_log_p2_t2l1
-          sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_plus_p2_t2l1
-        end
-        it "handles a more complicated concat" do
-          sum = @parsed_log_p1_t1l1_t2l1 + @parsed_log_p1_t1l2_t2l2
-          sum.instance_variable_get(:@lines).should == @hashed_p1_t1l1_t1l2_plus_p1_t2l1_t2l2
-        end
-        it "handles a simple sort" do
-          sum = @parsed_log_p1_t2l1 + @parsed_log_p2_t1l1
-          sum.instance_variable_get(:@lines).should == @hashed_p2_t1l1_plus_p1_t2l1
-        end
-        it "handles same timestamp across multiple files" do
-          @parsed_log_p1_t1l1_t2l1.stub(:lines).and_return(@lines)
-          @parsed_log_p2_t1l1_t2l1.stub(:lines).and_return(@lines)
-          sum = @parsed_log_p1_t1l1_t2l1 + @parsed_log_p2_t1l1_t2l1
-          sum.instance_variable_get(:@lines).to_a.should == (Hash[@lines.merge(@lines).sort]).to_a
-        end
-      end
 
       describe ".parse_log" do
         it "parses single line with time stamp" do
