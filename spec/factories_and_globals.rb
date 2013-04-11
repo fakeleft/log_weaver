@@ -92,6 +92,11 @@ FactoryGirl.define do
     end
   end
 
+  $pl_p1_t1_l1 = FactoryGirl.build :pl_p1_t1_l1
+  $pl_p1_t2_l1 = FactoryGirl.build :pl_p1_t2_l1
+  $pl_p2_t1_l1 = FactoryGirl.build :pl_p2_t1_l1
+  $pl_p2_t2_l1 = FactoryGirl.build :pl_p2_t2_l1
+
   factory 'log_weaver/combined_log_index_key' do
     factory :k_p1 do
       prefix $p1
@@ -133,11 +138,6 @@ $hash_p1_t2_l1_and_p2_t1_l1 = {
     $k_p2_t1 => [$l1],
     $k_p1_t2 => [$l1]
 }
-
-$pl_p1_t1_l1 = FactoryGirl.build :pl_p1_t1_l1
-$pl_p1_t2_l1 = FactoryGirl.build :pl_p1_t2_l1
-$pl_p2_t1_l1 = FactoryGirl.build :pl_p2_t1_l1
-$pl_p2_t2_l1 = FactoryGirl.build :pl_p2_t2_l1
 
 
 

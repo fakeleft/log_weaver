@@ -3,8 +3,8 @@ module LogWeaver
     include Comparable
 
     def <=>(other)
-      return prefix <=> other.prefix unless prefix == other.prefix
-      return timestamp <=> other.timestamp
+      return timestamp <=> other.timestamp unless timestamp == other.timestamp
+      return prefix <=> other.prefix
     end
   end
 end
