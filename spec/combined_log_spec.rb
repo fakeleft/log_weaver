@@ -18,6 +18,9 @@ module LogWeaver
       it "handles [p1_t1_l1, p2_t2_l1] (2 logs, ordered timestamps, 1 line each)" do
         CombinedLog.build_index([$pl_p1_t1_l1, $pl_p2_t2_l1]).should == $hash_p1_t1_l1_and_p2_t2_l1
       end
+      it "handles [p1_t1_l1, p2_t1_l1] (2 logs, same timestamp, 1 line each)" do
+        CombinedLog.build_index([$pl_p1_t1_l1, $pl_p2_t1_l1]).should == $hash_p1_t1_l1_and_p2_t1_l1
+      end
     end
 
     describe "#to_s" do
