@@ -25,7 +25,7 @@ module LogWeaver
     def to_s
       res = ""
       @index.each do |key, lines|
-        res << "#{key.prefix}:#{key.timestamp}#{lines.join("\n")}\n"
+        res << "#{key}#{lines.join("\n")}\n"
       end
       res
     end
