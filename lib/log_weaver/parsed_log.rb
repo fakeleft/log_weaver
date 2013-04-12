@@ -2,22 +2,12 @@ require 'time'
 
 module LogWeaver
   class ParsedLog
-    attr_accessor :lines
+    attr_accessor :lines #TODO: rename; attr_reader should suffice
     attr_reader :prefix
 
-    def initialize(log, prefix)
+    def initialize(prefix, log)
       @prefix = prefix
-      @lines = ParsedLog.parse_log log, prefix
-    end
-
-    def to_s
-      lines.map { |t, ls| ls.map { |l| "#{l}" }.join("\n") }.join("\n")
-    end
-
-    def +(other)
-      res = self.dup
-      res.lines = Hash[self.lines.merge(other.lines).sort]
-      res
+      @lines = ParsedLog.parse_log log
     end
 
     #private TODO: see http://stackoverflow.com/questions/4952980/creating-private-class-method; test per

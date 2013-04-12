@@ -6,27 +6,6 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
-      before(:all) do
-      end
-
-      describe ".initialize" do
-        it "stores the prefix" do
-          @parsed_empty_log1.instance_variable_get(:@prefix).should == @p1
-        end
-        it "parses the given log file by timestamp" do
-          @parsed_log_p1_t1l1_t2l1.instance_variable_get(:@lines).should == @hash_with_one_line_per_timestamp
-        end
-      end
-
-      # TODO: not sure to_s is needed here
-      describe "#to_s" do
-        it "prints the log to a string" do
-          @parsed_empty_log1.stub(:lines).and_return(@lines)
-          @parsed_empty_log1.to_s.should == @lines.map { |t, ls| ls.map { |l| "#{l}" }.join("\n") }.join("\n")
-        end
-      end
-
-
       describe ".parse_log" do
         it "parses single line with time stamp" do
           ParsedLog.parse_log($io_t1_l1).should == $hash_t1_l1
