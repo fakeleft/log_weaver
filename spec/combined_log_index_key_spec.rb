@@ -12,7 +12,7 @@ module LogWeaver
     end
     describe"#to_s" do
       it "prints 'prefix: timestamp'" do
-        $k_p1_t1.to_s.should == "#{$p1}:#{$t1}"
+        $k_p1_t1.to_s.should == "#{$p1}#{$t1}"
       end
     end
   end

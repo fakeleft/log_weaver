@@ -8,7 +8,7 @@ module LogWeaver
     end
 
     def to_s
-      "#{prefix}:#{timestamp}"
+      "#{prefix}#{timestamp}"
     end
   end
 end

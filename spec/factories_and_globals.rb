@@ -9,8 +9,8 @@ require 'log_weaver'
 # but having modules deep in Rspec get access to it by extending was way more voodoo
 # than I can stomach for now. So we'll go with globals.
 
-$p1 = 'p1'
-$p2 = 'p2'
+$p1 = 'p1:'
+$p2 = 'p2:'
 
 $t1 = Time.parse('2000-01-01 00:00:01.000') # NOTE: init time this way to discard values below msec
 $t2 = $t1 + 1
@@ -26,8 +26,8 @@ $t2_l2 = "#{$t2}#{$l2}"
 $no_t_l1 = $l1
 $no_t_l2 = $l2
 
-$out_p1_t1_l1 = "#{$p1}:#{$t1_l1}"
-$out_p2_t2_l1 = "#{$p2}:#{$t2_l1}"
+$out_p1_t1_l1 = "#{$p1}#{$t1_l1}"
+$out_p2_t2_l1 = "#{$p2}#{$t2_l1}"
 
 $io_empty                      = StringIO.new
 $io_t1_l1                      = StringIO.new($t1_l1)
