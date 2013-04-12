@@ -24,7 +24,7 @@ module LogWeaver
           expect { ParsedLog.parse_log($io_no_t_l1_t1_l2) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
         end
         it "associates lines with no timestamp with preceding timestamp" do
-          ParsedLog.parse_log($io_t1_l1_no_t_l2).should == $hash_io_t1_l1_no_t_l2
+          ParsedLog.parse_log($io_t1_l1_no_t_l2).should == $hash_t1_l1_no_t_l2
         end
       end
 

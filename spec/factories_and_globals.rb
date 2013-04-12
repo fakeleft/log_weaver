@@ -55,7 +55,7 @@ $hash_t3_l1 = { $t3 => [$l1] }
 $hash_t1_l1_t1_l2 = {
     $t1 => [$l1, $l2]
 }
-$hash_io_t1_l1_no_t_l2 = {
+$hash_t1_l1_no_t_l2 = {
     $t1 => [$l1, $no_t_l2]
 }
 
