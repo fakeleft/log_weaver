@@ -7,6 +7,9 @@ module LogWeaver
   class ParsedLog
     describe "ParsedLog" do #seems to be needed for let
       describe ".parse_log" do
+        it "throws ArgumentError when there are no timestamps" do
+          expect { ParsedLog.parse_log($io_no_t_l1_no_t_l2) }.to raise_error ArgumentError, "Log does not begin with a timestamp."
+        end
         it "parses single line with time stamp" do
           ParsedLog.parse_log($io_t1_l1).should == $hash_t1_l1
         end

@@ -34,6 +34,7 @@ $io_t1_l1                      = StringIO.new($t1_l1)
 $io_t2_l1                      = StringIO.new($t2_l1)
 $io_t1_l1_t2_l1                = StringIO.new([$t1_l1, $t2_l1].join("\n"))
 $io_t1_l1_t1_l2                = StringIO.new([$t1_l1, $t1_l2].join("\n"))
+$io_no_t_l1_no_t_l2            = StringIO.new([$no_t_l1, $no_t_l2].join("\n"))
 $io_no_t_l1_t1_l2              = StringIO.new([$no_t_l1, $t1_l2].join("\n"))
 $io_t1_l1_no_t_l2              = StringIO.new([$t1_l1, $no_t_l2].join("\n"))
 
