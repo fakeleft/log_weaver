@@ -26,7 +26,7 @@ module Methadone
         exit_now!(e.message)
       end
 
-      parsed_logs = files.map{ |f| ParsedLog.new(StringIO.new(File.open(f).read), file_prefixes[f]) }
+      parsed_logs = files.map{ |f| ParsedLog.new(file_prefixes[f], StringIO.new(File.open(f).read)) }
       overall_log = CombinedLog.new(parsed_logs)
       puts overall_log
     end
