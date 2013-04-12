@@ -28,7 +28,7 @@ module LogWeaver
       describe ".extract_time_stamp" do
         it "returns [nil, string] when string doesn't have a time stamp" do
           ParsedLog.extract_time_stamp("").should == [nil, ""]
-          ParsedLog.extract_time_stamp("#{$no_t_line}").should == [nil, $no_t_line]
+          ParsedLog.extract_time_stamp("#{$no_t_l1}").should == [nil, $no_t_l1]
         end
         it "returns timestamp and a blank string when line contains only a timestamp" do
           ParsedLog.extract_time_stamp("#{$t.to_s}").should == [$t, ""]
