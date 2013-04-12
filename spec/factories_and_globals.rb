@@ -52,21 +52,12 @@ $hash_t1_l1 = { $t1 => [$l1] }
 $hash_t1_l1_t2_l1 = { $t1 => [$l1], $t2 => [$l1] }
 $hash_t2_l1 = { $t2 => [$l1] }
 $hash_t3_l1 = { $t3 => [$l1] }
-
-
-$hash_t1_l1_t2_l1 = {
-    $t1 => [$l1],
-    $t2 => [$l1]
-}
-
 $hash_t1_l1_t1_l2 = {
     $t1 => [$l1, $l2]
 }
-
 $hash_io_t1_l1_no_t_l2 = {
     $t1 => [$l1, $no_t_l2]
 }
-
 
 # need to monkey-patch in argumentless constructors for FactoryGirl to be happy;
 # see http://stackoverflow.com/a/6838145/26819
