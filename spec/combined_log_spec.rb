@@ -55,7 +55,6 @@ module LogWeaver
         eos
         CombinedLog.new([$pl_p1_t1_l1, $pl_p2_t2_l1]).to_s.should == output.unindent
       end
-
       it "prints p1_t1_l1, p2_t1_l1 (same timestamp across files)" do
         output = <<-eos
           #{$out_p1_t1_l1}
@@ -63,7 +62,15 @@ module LogWeaver
         eos
         CombinedLog.new([$pl_p1_t1_l1, $pl_p2_t1_l1]).to_s.should == output.unindent
       end
-
+      it "prints p1_t1_l1_t1_l2, p2_t1_l3_t1_l4 (same timestamp across files, more lines)" ,:wip do
+        output = <<-eos
+          #{$out_p1_t1_l1}
+          #{$out_p1_t1_l2}
+          #{$out_p2_t1_l3}
+          #{$out_p2_t1_l4}
+        eos
+        CombinedLog.new([$pl_p1_t1_l1_t1_l2, $pl_p2_t1_l3_t1_l4]).to_s.should == output.unindent
+      end
       it "prints p1_t1_l1_t2_l1, p2_t3_l1" do
         output = <<-eos
           #{$out_p1_t1_l1}

@@ -18,9 +18,13 @@ $t3 = $t2 + 1
 
 $l1 = ' l1'
 $l2 = ' l2'
+$l3 = ' l3'
+$l4 = ' l4'
 
 $t1_l1 = "#{$t1}#{$l1}"
 $t1_l2 = "#{$t1}#{$l2}"
+$t1_l3 = "#{$t1}#{$l3}"
+$t1_l4 = "#{$t1}#{$l4}"
 $t2_l1 = "#{$t2}#{$l1}"
 $t2_l2 = "#{$t2}#{$l2}"
 $t3_l1 = "#{$t3}#{$l1}"
@@ -29,8 +33,11 @@ $no_t_l1 = $l1
 $no_t_l2 = $l2
 
 $out_p1_t1_l1 = "#{$p1}#{$t1_l1}"
+$out_p1_t1_l2 = "#{$p1}#{$t1_l2}"
 $out_p1_t2_l1 = "#{$p1}#{$t2_l1}"
 $out_p2_t1_l1 = "#{$p2}#{$t1_l1}"
+$out_p2_t1_l3 = "#{$p2}#{$t1_l3}"
+$out_p2_t1_l4 = "#{$p2}#{$t1_l4}"
 $out_p2_t2_l1 = "#{$p2}#{$t2_l1}"
 $out_p2_t3_l1 = "#{$p2}#{$t3_l1}"
 
@@ -49,7 +56,14 @@ $io_with_duplicate_timestamp   = StringIO.new([$t1_l1, $t1_l1].join("\n"))
 $io_starting_with_no_timestamp = StringIO.new([$no_t_line, $t2_l1].join("\n"))
 
 $hash_t1_l1 = { $t1 => [$l1] }
-$hash_t1_l1_t2_l1 = { $t1 => [$l1], $t2 => [$l1] }
+$hash_t1_l1_t2_l1 = {
+    $t1 => [$l1],
+    $t2 => [$l1]
+}
+$hash_t1_l3_t1_l4 = {
+    $t1 => [$l3],
+    $t1 => [$l4]
+}
 $hash_t2_l1 = { $t2 => [$l1] }
 $hash_t3_l1 = { $t3 => [$l1] }
 $hash_t1_l1_t1_l2 = {
@@ -77,6 +91,9 @@ FactoryGirl.define do
       factory :pl_p1_t1_l1 do
         lines $hash_t1_l1
       end
+      factory :pl_p1_t1_l1_t1_l2 do
+        lines $hash_t1_l1_t1_l2
+      end
       factory :pl_p1_t1_l1_t2_l1 do
         lines $hash_t1_l1_t2_l1
       end
@@ -90,6 +107,9 @@ FactoryGirl.define do
       factory :pl_p2_t1_l1 do
         lines $hash_t1_l1
       end
+      factory :pl_p2_t1_l3_t1_l4 do
+        lines $hash_t1_l3_t1_l4
+      end
       factory :pl_p2_t2_l1 do
         lines $hash_t2_l1
       end
@@ -100,9 +120,11 @@ FactoryGirl.define do
   end
 
   $pl_p1_t1_l1       = FactoryGirl.build :pl_p1_t1_l1
+  $pl_p1_t1_l1_t1_l2 = FactoryGirl.build :pl_p1_t1_l1_t1_l2
   $pl_p1_t1_l1_t2_l1 = FactoryGirl.build :pl_p1_t1_l1_t2_l1
   $pl_p1_t2_l1       = FactoryGirl.build :pl_p1_t2_l1
   $pl_p2_t1_l1       = FactoryGirl.build :pl_p2_t1_l1
+  $pl_p2_t1_l3_t1_l4 = FactoryGirl.build :pl_p2_t1_l3_t1_l4
   $pl_p2_t2_l1       = FactoryGirl.build :pl_p2_t2_l1
   $pl_p2_t3_l1       = FactoryGirl.build :pl_p2_t3_l1
 
