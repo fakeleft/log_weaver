@@ -250,7 +250,7 @@ Feature: run command line app; weave log files by timestamp
     """
     2012-01-01 00:00:00.001 - line1
     line1 with no timestamp
-     line2 with no timestamp
+    line2 with no timestamp
     2012-01-01 00:00:00.002 - line2
     """
     And a file named "file2" with:
@@ -263,11 +263,11 @@ Feature: run command line app; weave log files by timestamp
     Then the output should match:
     """
     file1: 2012-01-01 00:00:00.001 - line1
-    line1 with no timestamp
-     line2 with no timestamp
+    file1: line1 with no timestamp
+    file1: line2 with no timestamp
     file1: 2012-01-01 00:00:00.002 - line2
     file2: 2012-01-01 00:00:00.003 - line3
-    line3 with no timestamp
+    file2: line3 with no timestamp
     file2: 2012-01-01 00:00:00.004 - line4
     """
 
@@ -290,13 +290,13 @@ Feature: run command line app; weave log files by timestamp
     Then the output should match:
     """
     file2: 2012-01-01 00:00:00.001 - line1
-    line1 with no timestamp
+    file2: line1 with no timestamp
     file2: 2012-01-01 00:00:00.002 - line2
-    line2 with no timestamp
+    file2: line2 with no timestamp
     file1: 2012-01-01 00:00:00.003 - line3
-    line3 with no timestamp
+    file1: line3 with no timestamp
     file1: 2012-01-01 00:00:00.004 - line4
-    line4 with no timestamp
+    file1: line4 with no timestamp
     """
 
   Scenario: 2 files, mixed timestamps, lines with no timestamp
@@ -318,13 +318,13 @@ Feature: run command line app; weave log files by timestamp
     Then the output should match:
     """
     file1: 2012-01-01 00:00:00.001 - line1
-    line1 with no timestamp
+    file1: line1 with no timestamp
     file2: 2012-01-01 00:00:00.002 - line2
-    line2 with no timestamp
+    file2: line2 with no timestamp
     file1: 2012-01-01 00:00:00.003 - line3
-    line3 with no timestamp
+    file1: line3 with no timestamp
     file2: 2012-01-01 00:00:00.004 - line4
-    line4 with no timestamp
+    file2: line4 with no timestamp
     """
 
   Scenario: 2 files, timestamps out of order within a file (NOTE: having a log file with unordered timestamps is weird, but oh well)
@@ -344,11 +344,11 @@ Feature: run command line app; weave log files by timestamp
     Then the output should match:
     """
     file1: 2012-01-01 00:00:00.001 - line1
-    line1 with no timestamp
+    file1: line1 with no timestamp
     file1: 2012-01-01 00:00:00.002 - line2
-    line2 with no timestamp
+    file1: line2 with no timestamp
     file2: 2012-01-01 00:00:00.003 - line3
-    line3 with no timestamp
+    file2: line3 with no timestamp
     """
 
 # ---------------------------------------------------------------
@@ -359,7 +359,7 @@ Feature: run command line app; weave log files by timestamp
     """
     2012-01-01 00:00:00.001 - line1
     line1 with no timestamp
-     line2 with no timestamp
+    line2 with no timestamp
     2012-01-01 00:00:00.002 - line2
     """
     And a file named "file2" with:
@@ -378,15 +378,15 @@ Feature: run command line app; weave log files by timestamp
     Then the output should match:
     """
     file1: 2012-01-01 00:00:00.001 - line1
-    line1 with no timestamp
-     line2 with no timestamp
+    file1: line1 with no timestamp
+    file1: line2 with no timestamp
     file1: 2012-01-01 00:00:00.002 - line2
     file2: 2012-01-01 00:00:00.003 - line3
-    line3 with no timestamp
+    file2: line3 with no timestamp
     file2: 2012-01-01 00:00:00.004 - line4
     file3: 2012-01-01 00:00:00.005 - line5
     file3: 2012-01-01 00:00:00.006 - line6
-    line6 with no timestamp
+    file3: line6 with no timestamp
     """
 
   Scenario: 3 files, mixed timestamps, lines with no timestamp
@@ -415,16 +415,16 @@ Feature: run command line app; weave log files by timestamp
     Then the output should match:
     """
     file1: 2012-01-01 00:00:00.001 - line1
-    line1 with no timestamp
+    file1: line1 with no timestamp
     file2: 2012-01-01 00:00:00.002 - line2
-    line2 with no timestamp
+    file2: line2 with no timestamp
     file3: 2012-01-01 00:00:00.003 - line3
-    line3 with no timestamp
+    file3: line3 with no timestamp
     file3: 2012-01-01 00:00:00.004 - line4
-    line4 with no timestamp
+    file3: line4 with no timestamp
     file2: 2012-01-01 00:00:00.005 - line5
-    line5 with no timestamp
+    file2: line5 with no timestamp
     file1: 2012-01-01 00:00:00.006 - line6
-    line6 with no timestamp
+    file1: line6 with no timestamp
     """
 
