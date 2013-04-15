@@ -25,7 +25,7 @@ module LogWeaver
           raise ArgumentError, "Log does not begin with a timestamp." if previous_key.nil?
         end
 
-        res[previous_key] << message
+        res[previous_key] << line #message
       end
       res
     end

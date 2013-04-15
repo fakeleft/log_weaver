@@ -55,22 +55,21 @@ $io_with_missing_timestamps    = StringIO.new([$t1_l1, $no_t_line, $t2_l1].join(
 $io_with_duplicate_timestamp   = StringIO.new([$t1_l1, $t1_l1].join("\n"))
 $io_starting_with_no_timestamp = StringIO.new([$no_t_line, $t2_l1].join("\n"))
 
-$hash_t1_l1 = { $t1 => [$l1] }
+$hash_t1_l1 = { $t1 => [$t1_l1] }
 $hash_t1_l1_t2_l1 = {
-    $t1 => [$l1],
-    $t2 => [$l1]
+    $t1 => [$t1_l1],
+    $t2 => [$t2_l1]
 }
 $hash_t1_l3_t1_l4 = {
-    $t1 => [$l3],
-    $t1 => [$l4]
+    $t1 => [$t1_l3, $t1_l4]
 }
-$hash_t2_l1 = { $t2 => [$l1] }
-$hash_t3_l1 = { $t3 => [$l1] }
+$hash_t2_l1 = { $t2 => [$t2_l1] }
+$hash_t3_l1 = { $t3 => [$t3_l1] }
 $hash_t1_l1_t1_l2 = {
-    $t1 => [$l1, $l2]
+    $t1 => [$t1_l1, $t1_l2]
 }
 $hash_t1_l1_no_t_l2 = {
-    $t1 => [$l1, $no_t_l2]
+    $t1 => [$t1_l1, $no_t_l2]
 }
 
 # need to monkey-patch in argumentless constructors for FactoryGirl to be happy;

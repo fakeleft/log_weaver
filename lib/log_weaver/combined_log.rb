@@ -26,7 +26,7 @@ module LogWeaver
       res = ""
       @index.each do |key, lines|
         lines.each do |l|
-          res << "#{l}\n"
+          res << "#{key.prefix}#{l}\n"
         end
       end
       res
