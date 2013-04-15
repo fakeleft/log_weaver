@@ -62,7 +62,7 @@ module LogWeaver
         eos
         CombinedLog.new([$pl_p1_t1_l1, $pl_p2_t1_l1]).to_s.should == output.unindent
       end
-      it "prints p1_t1_l1_t1_l2, p2_t1_l3_t1_l4 (same timestamp across files, more lines)" ,:wip do
+      it "prints p1_t1_l1_t1_l2, p2_t1_l3_t1_l4 (same timestamp across files, more lines)" do
         output = <<-eos
           #{$out_p1_t1_l1}
           #{$out_p1_t1_l2}
