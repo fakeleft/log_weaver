@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     log_weaver (0.0.1)
-      methadone (~> 1.2.1)
+      methadone (~> 1.2)
       require_all (~> 1.2)
 
 GEM
@@ -52,10 +52,11 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  aruba
-  factory_girl
+  aruba (~> 0.5)
+  cucumber (~> 1.2)
+  factory_girl (~> 4.2)
   log_weaver!
-  rake (~> 0.9.2)
+  rake (~> 0.9)
   rdoc
-  rspec
-  unindent
+  rspec (~> 2.13)
+  unindent (~> 1.0)

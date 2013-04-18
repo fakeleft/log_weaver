@@ -15,11 +15,12 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = LogWeaver::VERSION
   gem.add_development_dependency('rdoc')
-  gem.add_development_dependency('unindent')
-  gem.add_development_dependency('aruba')
-  gem.add_development_dependency('rspec')
-  gem.add_development_dependency('factory_girl')
-  gem.add_development_dependency('rake','~> 0.9.2')
-  gem.add_dependency('methadone', '~>1.2.1')
-  gem.add_dependency('require_all', '~>1.2')
+  gem.add_development_dependency('unindent', '~> 1.0')
+  gem.add_development_dependency('aruba', '~> 0.5')
+  gem.add_development_dependency('cucumber', '~> 1.2')
+  gem.add_development_dependency('rspec', '~> 2.13')
+  gem.add_development_dependency('factory_girl', '~> 4.2')
+  gem.add_development_dependency('rake','~> 0.9')
+  gem.add_dependency('methadone', '~> 1.2')
+  gem.add_dependency('require_all', '~> 1.2')
 end
