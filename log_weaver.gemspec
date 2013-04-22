@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = LogWeaver::VERSION
 
-  gem.add_development_dependency('rdoc')
+  gem.add_development_dependency('yard', '~> 0.8')
   gem.add_development_dependency('unindent', '~> 1.0')
   gem.add_development_dependency('aruba', '~> 0.5')
   gem.add_development_dependency('cucumber', '~> 1.2')
