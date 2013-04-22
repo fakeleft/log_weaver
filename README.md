@@ -1,29 +1,26 @@
 # LogWeaver
 
-TODO: Write a gem description
+##Description
+
+Weaves multiple log files into a single one using the timestamp in log entries.
+Precedes each line with a portion of the source log file name so you can tell
+which file a line came from.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'log_weaver'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install log_weaver
+gem install log_weaver
 
 ## Usage
 
-TODO: Write usage instructions here
+log_weaver --help
 
-## Contributing
+## Copyright
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Copyright (c) 2012 Raphael Borowiecki. All rights reserved.
+
+## License
+
+MIT
+
+
+
