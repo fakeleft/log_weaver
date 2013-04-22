@@ -2,11 +2,14 @@
 require File.expand_path('../lib/log_weaver/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["raphael"]
+  gem.add_development_dependency('readme', '~> 0.1')
+  require 'readme'
+  r = Readme.file
+  gem.authors       = r.authors
   gem.email         = ["raphael.borowiecki@gmail.com"]
-  gem.description   = %q{Weaves multiple log files into a single one using the timestamp in log entries.}
-  gem.summary       = %q{See description.}
-  gem.homepage      = ""
+  gem.description   = r.description
+  gem.summary       = "Weaves log files by timestamp."
+  gem.homepage      = r.homepage
 
   gem.files         = `hg manifest`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -14,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.name          = "log_weaver"
   gem.require_paths = ["lib"]
   gem.version       = LogWeaver::VERSION
+
   gem.add_development_dependency('rdoc')
   gem.add_development_dependency('unindent', '~> 1.0')
   gem.add_development_dependency('aruba', '~> 0.5')
@@ -24,3 +28,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency('methadone', '~> 1.2')
   gem.add_dependency('require_all', '~> 1.2')
 end
+
+
+

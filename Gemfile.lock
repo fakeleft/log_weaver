@@ -37,6 +37,7 @@ GEM
     rake (0.9.6)
     rdoc (4.0.1)
       json (~> 1.4)
+    readme (0.1.0)
     require_all (1.2.1)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
@@ -58,5 +59,6 @@ DEPENDENCIES
   log_weaver!
   rake (~> 0.9)
   rdoc
+  readme (~> 0.1)
   rspec (~> 2.13)
   unindent (~> 1.0)
