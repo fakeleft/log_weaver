@@ -3,9 +3,6 @@
 require 'optparse'
 require 'methadone'
 
-#TODO: i think cuke needs gem installed, while debugging
-# in rubymine needs it uninstalled - need to prioritize the load path better
-$LOAD_PATH << File.expand_path('../../lib' , __FILE__)
 require 'log_weaver'
 
 include LogWeaver::PrefixGenerator
