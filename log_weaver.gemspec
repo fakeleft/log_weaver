@@ -11,7 +11,14 @@ Gem::Specification.new do |gem|
   gem.summary       = "Weaves log files by timestamp."
   gem.homepage      = r.homepage
 
-  gem.files         = `hg manifest`.split($\)
+  if File.directory?('.hg')
+    gem.files         = `hg manifest`.split($\)
+  elsif File.directory?('.git')
+    gem.files         = `git ls-files`.split($\)
+  else
+    raise "Need to build from a git or hg repo to generate manifest."
+  end
+
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "log_weaver"
